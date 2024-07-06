@@ -30,13 +30,13 @@ get_price_history(
 
 \item{frequency}{the time frequency duration. Default is NULL, which is 1 (numeric).}
 
+\item{start_datetime}{start datetime of request. Default is NULL, which is the end date less the period (datetime).}
+
+\item{end_datetime}{end datetime of request. Default is NULL, which is the market close of the previous business day (datetime).}
+
 \item{need_extended_hours_data}{indicator for whether extended hours data is needed. Default is NULL, which is TRUE (boolean).}
 
 \item{need_previous_close}{indicator for whether the previous close price/date is needed. Default is NULL, which is FALSE (boolean).}
-
-\item{start_date}{start datetime of request. Default is NULL, which is the end date less the period (datetime).}
-
-\item{end_date}{end datetime of request. Default is NULL, which is the market close of the previous business day (datetime).}
 }
 \value{
 Returns a data frame containing information surrounding

@@ -36,8 +36,8 @@
 #' @param period number of chart period types. Default is NULL, which will then be dependent on the period type (numeric).
 #' @param frequency_type the time frequency type. Default is NULL, which will then be dependent on the period type (string).
 #' @param frequency the time frequency duration. Default is NULL, which is 1 (numeric).
-#' @param start_date start datetime of request. Default is NULL, which is the end date less the period (datetime).
-#' @param end_date end datetime of request. Default is NULL, which is the market close of the previous business day (datetime).
+#' @param start_datetime start datetime of request. Default is NULL, which is the end date less the period (datetime).
+#' @param end_datetime end datetime of request. Default is NULL, which is the market close of the previous business day (datetime).
 #' @param need_extended_hours_data indicator for whether extended hours data is needed. Default is NULL, which is TRUE (boolean).
 #' @param need_previous_close indicator for whether the previous close price/date is needed. Default is NULL, which is FALSE (boolean).
 #'
