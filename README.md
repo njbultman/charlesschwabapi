@@ -1,4 +1,17 @@
 # charlesschwabapi
+
+## R Package Wrapper Around Charles Schwab Individual Trader API
+
+### Installation
+Install latest development version through GitHub via `devtools` package:
+
+[![Codecov test coverage](https://codecov.io/gh/njbultman/charlesschwabapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/njbultman/charlesschwabapi?branch=main)
+```R
+install.packages("devtools") # If have not installed package already
+library(devtools)
+devtools::install_github("njbultman/charlesschwabapi")
+```
+
 ### Introduction
 For those wishing to interact with the [Charles Schwab Individual Trader API](https://developer.schwab.com/) with R in a simplified manner, this package offers wrapper functions around authentication and the available API calls to streamline the process.
 
