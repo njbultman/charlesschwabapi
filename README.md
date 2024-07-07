@@ -5,6 +5,7 @@
 ### Installation
 Install latest development version through GitHub via `devtools` package:
 
+[![R-CMD-check](https://github.com/njbultman/charlesschwabapi/workflows/R-CMD-check/badge.svg)](https://github.com/njbultman/charlesschwabapi/actions) 
 [![Codecov test coverage](https://codecov.io/gh/njbultman/charlesschwabapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/njbultman/charlesschwabapi?branch=main)
 ```R
 install.packages("devtools") # If have not installed package already
@@ -23,7 +24,7 @@ Lastly,currently there are no wrapper functions around placing, cancelling, or r
 This software is in no way affiliated, endorsed, or approved by Charles Schwab or any of its affiliates. It comes with absolutely no warranty and should not be used in or for actual trading unless the user can read and understand the source code. The functions within this package have been tested under basic scenarios. There may be bugs or issues that could prevent a user from executing trades or canceling trades when the trading functionality becomes available. It is also possible trades could be submitted in error. The user will use this package at their own risk.
 
 ### Authentication
-Before doing anything related to this package, the user must first create a profile and application with Charles Schwab's Individual Trader API at their developer [website](https://developer.schwab.com/). While all the specifics will not be gone through here, there are many excellent tutorials to walk one through this setup process. For example `quantRoom` has an excellent YouTube video [here](https://www.youtube.com/watch?v=AOiFYj5iM5U&t=2s) showing how to create an application with Charles Schwab Individual Trader API using the localhost callback URL and ensuring both the accounts/trading and market data functionality are available. The first minute contains the relevant information. Once this is complete and the application is approved, one will be provided with the application key, application secret, and the redirect URI (callback URL) needed to start using the package.
+Before doing anything related to this package, the user must first create a profile and application with Charles Schwab's Individual Trader API at their developer [website](https://developer.schwab.com/). While all the specifics will not be gone through here, there are many excellent tutorials to walk one through this setup process. For example `quantRoom` has an excellent YouTube video [here](https://www.youtube.com/watch?v=AOiFYj5iM5U&t=2s) showing how to create an application with the Charles Schwab Individual Trader API using the localhost callback URL and ensuring both the accounts/trading and market data functionality are available. The first minute contains the relevant information. Once this is complete and the application is approved, one will be provided with the application key, application secret, and the redirect URI (callback URL) needed to start using the package.
 
 After the application is created, one can initialize an object (for example `tokens`) and call the `get_authentication_tokens` function and passing in the application key, redirect URI (callback URL), application secret, and an optional save path for the tokens (it will default to saving in the working directory). It is recommended from a security perspective to place the application key and application secret in environment variables and then put those in the script rather than putting them in directly, but both methods will suffice with authentication.
 ```R
@@ -48,7 +49,7 @@ tokens <- charlesschwabapi::get_authentication_tokens(app_key, redirect_uri, app
 ```
 
 ### Basic Usage
-Now that authentication is situated, we can use the object with token information (`tokens` above) to pass to other functions to gather data. For example, to get account information, one can call the `get_account_numbers` function and pass in the token information object (`tokens`) to return a nice data frame containing information related to the authenticated user's accounts.
+Now that authentication is situated, the object with token information (`tokens` above) can be used for other functions to gather data. For example, to get account information, one can call the `get_account_numbers` function and pass in the token information object (`tokens`) to return a nice data frame containing information related to the authenticated user's accounts.
 ```R
 # Get account number information
 account_numbers <- get_account_numbers(tokens)
@@ -61,4 +62,4 @@ account_number <- account_numbers$hashValue[1]
 # Then, this value can be passed into get_orders_account
 account_orders <- get_orders_account(tokens, account_number)
 ```
-There are many additional functions available to gather not only information about the user's accounts but also general market information (quotes, option chains, price history, and more).
+There are many additional functions available to gather not only information about the user's accounts but also general market information (quotes, option chains, price history, and more). It is encouraged to look through all the documentation pertaining to each function and the documentation related to the Individual Trader API on the Charles Schwab developer site to fully explore and understand the capabilities to make the most of this package.
