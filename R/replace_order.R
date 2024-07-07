@@ -20,6 +20,7 @@
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords order account place
 #' @importFrom httr PUT add_headers content status_code
+#' @importFrom jsonlite toJSON
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
