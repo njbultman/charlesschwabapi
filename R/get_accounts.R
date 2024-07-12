@@ -2,7 +2,10 @@
 #'
 #' Given the tokens object from the `get_authentication_tokens`
 #' function, return the account(s) information associated with
-#' the authenticated user.
+#' the authenticated user. By default, this includes positions,
+#' fundamentals, and general account information. However, one
+#' can use the `fields` argument to get more specific as to the
+#' information returned.
 #'
 #' @return Returns a data frame containing the account(s)
 #'         information.

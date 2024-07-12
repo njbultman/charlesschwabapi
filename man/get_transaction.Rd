@@ -19,7 +19,7 @@ Returns a data frame containing the transaction
 }
 \description{
 Given the tokens object from the `get_authentication_tokens`
-function, the encrypted account number of interest, and the
+function, the encrypted account ID of interest, and the
 transaction ID of interest, return information corresponding
 to that transaction. Note that the transaction ID can be obtained
 by first calling the `get_transactions` function, finding the transaction

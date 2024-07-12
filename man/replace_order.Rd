@@ -13,7 +13,7 @@ replace_order(tokens, account_number, order_id, request_body)
 
 \item{order_id}{order ID to be replaced (numeric).}
 
-\item{request_body}{list object that when transformed to JSON will create a valid request to API for replacing an order (list).}
+\item{request_body}{Valid request to API for replacing an order (JSON).}
 }
 \value{
 Returns a message informing the user if the order was successfully
@@ -25,9 +25,8 @@ function, the encrypted account ID, the order ID and the
 request body, replace the specific order. Due to the complexity of the orders
 that can be created/replaced, currently this function allows
 maximum flexibility by not cultivating an easier solution
-to building the request body and assumes the user passes a
-complex list in the exact format that, when parsed as JSON, will yield
-the proper request body to the API. Much like the `place_order` function,
+to building the request body and assumes the user passes
+the appropriate JSON. Much like the `place_order` function,
 it is strongly encouraged to look at the documentation (in this package and
 on the Charles Schwab developer site) for how to build proper orders before
 attempting to replace any. The user of this function assumes
@@ -40,4 +39,4 @@ Nick Bultman, \email{njbultman74@gmail.com}, July 2024
 }
 \keyword{account}
 \keyword{order}
-\keyword{place}
+\keyword{replace}

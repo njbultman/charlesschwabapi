@@ -15,7 +15,7 @@ get_instruments(tokens, symbol, projection)
 }
 \value{
 Returns a data frame containing information surrounding
-the symbol(s) of interest in the search.
+        the symbol(s) of interest in the search.
 }
 \description{
 Given the tokens object from the `get_authentication_tokens`

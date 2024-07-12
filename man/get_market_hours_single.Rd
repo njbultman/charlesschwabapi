@@ -9,13 +9,13 @@ get_market_hours_single(tokens, market, date = NULL)
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{market}{market of interest that is either "equity", "option", "bond", "future", and/or "forex" (string).}
+\item{market}{market of interest that is either "equity", "option", "bond", "future", or "forex" (string).}
 
-\item{date}{date you would like to get the hours of operation. Valid dates are today through one year from now (date).}
+\item{date}{date you would like to get the hours of operation. Valid dates are today through one year from now. Default is NULL, which is today (date).}
 }
 \value{
 Returns a data frame containing information surrounding
-the market's hours of operation.
+        the market's hours of operation.
 }
 \description{
 Given the tokens object from the `get_authentication_tokens`

@@ -9,20 +9,21 @@
 #' metadata is captured in addition to the tokens (such as the expiration
 #' of those tokens to help with knowing when to refresh). After this function
 #' is initially called, be sure use the same path to the token for future calls
-#' as well along with maintaining the default name that is used for
-#' the RDS file. This function will always first look to see
-#' if an RDS file exists at the specified path and with the default
-#' name to check if tokens are valid or expired. Authentication
-#' requires no user intervention when the refresh token is valid. User
-#' intervention (via the login method through a separate browser)
-#' is only required when both the access token and the refresh token
-#' are expired.
+#' along with maintaining the default name that is used for
+#' the RDS file to avoid manual reauthentication whenever possible.
+#' This function will always first look to see if an RDS file exists
+#' at the specified path and with the default name to check if tokens
+#' are valid or expired. Authentication requires no user intervention
+#' when the refresh token is valid. User intervention (via the login
+#' method through a separate browser) is only required when both the
+#' access token and the refresh token are expired.
 #'
 #' @return Returns a message on whether the authentication
 #'         was successful or not along with token information
-#'         (if successful, NULL otherwise).
+#'         (if successful, NULL otherwise), including the path
+#'         to where the token RDS object is saved.
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, June 2024
-#' @keywords authentication
+#' @keywords authentication tokens
 #' @importFrom httr POST add_headers status_code content
 #' @importFrom utils browseURL
 #' @importFrom stringr str_sub str_locate

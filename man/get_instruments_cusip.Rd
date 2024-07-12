@@ -13,7 +13,7 @@ get_instruments_cusip(tokens, cusip_id)
 }
 \value{
 Returns a data frame containing information surrounding
-        the symbol(s) of interest in the search.
+        the cusip of interest in the search.
 }
 \description{
 Given the tokens object from the `get_authentication_tokens`
@@ -23,6 +23,7 @@ about the security matching the search.
 \author{
 Nick Bultman, \email{njbultman74@gmail.com}, July 2024
 }
+\keyword{cusip}
 \keyword{instrument}
 \keyword{instruments}
 \keyword{search}

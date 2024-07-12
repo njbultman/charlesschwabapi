@@ -7,7 +7,7 @@
 get_transactions(
   tokens,
   account_number,
-  start_datetime = strftime(Sys.time() - lubridate::years(1), format =
+  start_datetime = strftime(Sys.time() - lubridate::days(180), format =
     "\%Y-\%m-\%dT\%H:\%M:\%OS3Z"),
   end_datetime = strftime(Sys.time(), format = "\%Y-\%m-\%dT\%H:\%M:\%OS3Z"),
   symbol = NULL,
@@ -19,13 +19,13 @@ get_transactions(
 
 \item{account_number}{encrypted ID of the account (string).}
 
-\item{start_datetime}{datetime that you would like to start gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format (string).}
+\item{start_datetime}{datetime that you would like to start gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format. Default is current datetime less 180 days (string).}
 
-\item{end_datetime}{datetime that you would like to end gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format (string).}
+\item{end_datetime}{datetime that you would like to end gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format. Default is current datetime (string).}
 
-\item{symbol}{filter for transactions based on this symbol. Defaults is NULL, which means no filtering (string).}
+\item{symbol}{filter for transactions based on this symbol. Default is NULL, which means no filtering (string).}
 
-\item{types}{filter for transactions based on its type. Defaults is NULL, which means no filtering. Available values are 'TRADE', 'RECEIVE_AND_DELIVER', 'DIVIDEND_OR_INTEREST', 'ACH_RECEIPT', 'ACH_DISBURSEMENT', 'CASH_RECEIPT', 'CASH_DISBURSEMENT', 'ELECTRONIC_FUND', 'WIRE_OUT', 'WIRE_IN', 'JOURNAL', 'MEMORANDUM', 'MARGIN_CALL', 'MONEY_MARKET', or 'SMA_ADJUSTMENT' (string or character vector).}
+\item{types}{filter for transactions based on its type. Default is NULL, which means no filtering. Available values are 'TRADE', 'RECEIVE_AND_DELIVER', 'DIVIDEND_OR_INTEREST', 'ACH_RECEIPT', 'ACH_DISBURSEMENT', 'CASH_RECEIPT', 'CASH_DISBURSEMENT', 'ELECTRONIC_FUND', 'WIRE_OUT', 'WIRE_IN', 'JOURNAL', 'MEMORANDUM', 'MARGIN_CALL', 'MONEY_MARKET', or 'SMA_ADJUSTMENT' (string or character vector).}
 }
 \value{
 Returns a data frame containing the account's transaction
@@ -35,7 +35,7 @@ Returns a data frame containing the account's transaction
 Given the tokens object from the `get_authentication_tokens`
 function and the encrypted account number of interest, get
 the transactions associated with that account number. By
-default, the last year's worth of transactions are returned.
+default, the last 180 days worth of transactions are returned.
 However, this can be tweaked according to the date parameters
 along with the types of transactions using the types parameter.
 }

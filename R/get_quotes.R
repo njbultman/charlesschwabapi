@@ -5,6 +5,8 @@
 #' containing information about those symbols. Note that this
 #' function can return information that goes beyond a standard
 #' quote (for example, fundamental information can be returned).
+#' #' By default, everything is returned, but the specific information
+#' returned can be customized through the `fields` argument below.
 #'
 #' @return Returns a data frame containing information about the
 #'         given symbols of interest.
@@ -18,7 +20,7 @@
 #' @param tokens token object from `get_authentication_tokens` function (list).
 #' @param symbols symbols for quotes (vector).
 #' @param fields request for subset of data. Possible values are NULL, "all", "quote", "fundamental", "extended", "reference", or "regular". Note these can be combined in a vector or a string with a value can be used (string or vector).
-#' @param indicative include indicative symbol quotes for not (string). Possible values are "true" and "false".
+#' @param indicative include indicative symbol quotes or not for ETF requests. Possible values are "true" and "false" (string).
 #'
 get_quotes <- function(tokens,
                        symbols,

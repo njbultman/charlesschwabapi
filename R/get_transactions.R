@@ -3,7 +3,7 @@
 #' Given the tokens object from the `get_authentication_tokens`
 #' function and the encrypted account number of interest, get
 #' the transactions associated with that account number. By
-#' default, the last year's worth of transactions are returned.
+#' default, the last 180 days worth of transactions are returned.
 #' However, this can be tweaked according to the date parameters
 #' along with the types of transactions using the types parameter.
 #'
@@ -13,18 +13,19 @@
 #' @keywords account transactions
 #' @importFrom httr GET add_headers content status_code
 #' @importFrom dplyr bind_rows
+#' @importFrom lubridate days
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
 #' @param account_number encrypted ID of the account (string).
-#' @param start_datetime datetime that you would like to start gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format (string).
-#' @param end_datetime datetime that you would like to end gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format (string).
-#' @param symbol filter for transactions based on this symbol. Defaults is NULL, which means no filtering (string).
-#' @param types filter for transactions based on its type. Defaults is NULL, which means no filtering. Available values are 'TRADE', 'RECEIVE_AND_DELIVER', 'DIVIDEND_OR_INTEREST', 'ACH_RECEIPT', 'ACH_DISBURSEMENT', 'CASH_RECEIPT', 'CASH_DISBURSEMENT', 'ELECTRONIC_FUND', 'WIRE_OUT', 'WIRE_IN', 'JOURNAL', 'MEMORANDUM', 'MARGIN_CALL', 'MONEY_MARKET', or 'SMA_ADJUSTMENT' (string or character vector).
+#' @param start_datetime datetime that you would like to start gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format. Default is current datetime less 180 days (string).
+#' @param end_datetime datetime that you would like to end gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format. Default is current datetime (string).
+#' @param symbol filter for transactions based on this symbol. Default is NULL, which means no filtering (string).
+#' @param types filter for transactions based on its type. Default is NULL, which means no filtering. Available values are 'TRADE', 'RECEIVE_AND_DELIVER', 'DIVIDEND_OR_INTEREST', 'ACH_RECEIPT', 'ACH_DISBURSEMENT', 'CASH_RECEIPT', 'CASH_DISBURSEMENT', 'ELECTRONIC_FUND', 'WIRE_OUT', 'WIRE_IN', 'JOURNAL', 'MEMORANDUM', 'MARGIN_CALL', 'MONEY_MARKET', or 'SMA_ADJUSTMENT' (string or character vector).
 #'
 get_transactions <- function(tokens,
                              account_number,
-                             start_datetime = strftime(Sys.time() - lubridate::years(1), format = "%Y-%m-%dT%H:%M:%OS3Z"), # nolint
+                             start_datetime = strftime(Sys.time() - lubridate::days(180), format = "%Y-%m-%dT%H:%M:%OS3Z"), # nolint
                              end_datetime = strftime(Sys.time(), format = "%Y-%m-%dT%H:%M:%OS3Z"), # nolint
                              symbol = NULL,
                              types = NULL) {

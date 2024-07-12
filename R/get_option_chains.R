@@ -4,8 +4,8 @@
 #' function and the symbol of interest, return a data frame
 #' containing information about the option chain. Note that there
 #' are many ways to customize the data returned, including being
-#' able to specify the strategy as analytical and providing your
-#' own input assumptions. Refer to the parameters below for more
+#' able to specify the strategy as analytical and providing custom
+#' input assumptions. Refer to the parameters below for more
 #' detailed information.
 #'
 #' @return Returns a data frame containing information about the

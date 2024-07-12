@@ -1,12 +1,11 @@
 #' Place Order for Specific Account
 #'
 #' Given the tokens object from the `get_authentication_tokens`
-#' function, the encrypted account ID, and the request body, place
+#' function, the encrypted account ID, and the request body (JSON), place
 #' the specific order. Note that due to the complexity of the orders
 #' that can be created, currently this function allows maximum flexibility
 #' by not cultivating an easier solution to building the request
-#' body and assumes the user passes a complex list in the exact format that,
-#' when parsed as JSON, will yield the proper request body to the API. As
+#' body and assumes the user passes the appropriate JSON. As
 #' a result, it is strongly encouraged to look at the documentation for how
 #' to build the proper orders for programmatic execution and do robust testing
 #' outside of market hours to ensure that when a live trade comes it
@@ -19,25 +18,24 @@
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords order account place
 #' @importFrom httr POST add_headers content status_code
-#' @importFrom jsonlite toJSON
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
 #' @param account_number encrypted ID of the account (string).
-#' @param request_body list object that when transformed to JSON will create a valid request to API for placing an order (list).
+#' @param request_body Valid request to API for placing an order (JSON).
 #'
 place_order <- function(tokens,
                         account_number,
                         request_body) {
   # Ensure tokens parameter is a list
-  if (!is.list(tokens) || !is.character(account_number) || !is.list(request_body)) { # nolint
-    stop("Tokens must be a list, account number must be a string, and the request body must be a list.") # nolint
+  if (!is.list(tokens) || !is.character(account_number) || !inherits(request_body, "json")) { # nolint
+    stop("Tokens must be a list, account number must be a string, and the request body must be JSON.") # nolint
   }
   # Define URL
   url <- paste0("https://api.schwabapi.com/trader/v1/accounts/", account_number, "/orders") # nolint
   # Send GET request
   request <- httr::POST(url = url,
-                        query = jsonlite::toJSON(request_body),
+                        query = request_body,
                         httr::add_headers(`accept` = "application/json",
                                             `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
   # Check if valid response returned (200)

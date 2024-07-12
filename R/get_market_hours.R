@@ -2,7 +2,7 @@
 #'
 #' Given the tokens object from the `get_authentication_tokens`
 #' function, return a data frame containing information about the
-#' market of interest and its specific hours of operation. By
+#' market(s) of interest and its specific hours of operation. By
 #' default, all of the markets are returned for today's date, but
 #' both the specific markets returned and the date can be tweaked.
 #' Please see the parameters for more specifics related to what can
@@ -18,8 +18,8 @@
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
-#' @param markets markets of interest that are "equity", "option", "bond", "future", and/or "forex" (string or character vector).
-#' @param date date you would like to get the hours of operation. Valid dates are today through one year from now (date).
+#' @param markets markets of interest that are "equity", "option", "bond", "future", and/or "forex". Default is all markets (string or character vector).
+#' @param date date you would like to get the hours of operation. Valid dates are today through one year from now. Default is NULL, which is today (date).
 #'
 get_market_hours <- function(tokens,
                              markets = c("equity", "option", "bond", "future", "forex"), # nolint

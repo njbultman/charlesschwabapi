@@ -2,7 +2,8 @@
 #'
 #' Given the tokens object from the `get_authentication_tokens`
 #' function and the encrypted account ID, return the account
-#' information. The encrypted account ID can be found using the
+#' information (positions, fundamentals, and general account
+#' information). The encrypted account ID can be found using the
 #' `get_account_numbers` function.
 #'
 #' @return Returns a data frame containing the account

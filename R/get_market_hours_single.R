@@ -7,7 +7,7 @@
 #' specific hours of operation for the market related to that date.
 #'
 #' @return Returns a data frame containing information surrounding
-#' the market's hours of operation.
+#'         the market's hours of operation.
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords market hours operation single
 #' @importFrom httr GET add_headers content status_code
@@ -16,8 +16,8 @@
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
-#' @param market market of interest that is either "equity", "option", "bond", "future", and/or "forex" (string).
-#' @param date date you would like to get the hours of operation. Valid dates are today through one year from now (date).
+#' @param market market of interest that is either "equity", "option", "bond", "future", or "forex" (string).
+#' @param date date you would like to get the hours of operation. Valid dates are today through one year from now. Default is NULL, which is today (date).
 #'
 get_market_hours_single <- function(tokens, market, date = NULL) {
   # Ensure tokens parameter is a list, markets is a character string/vector, and date is date #nolint

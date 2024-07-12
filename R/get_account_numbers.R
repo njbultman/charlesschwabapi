@@ -2,9 +2,10 @@
 #'
 #' Given the tokens object from the `get_authentication_tokens`
 #' function, return the account number(s) information, including
-#' the actual account number(s) and the encrypted ID(s) of the account.
-#' The latter is used in other functions like orders and transactions
-#' that require a specific encrypted account ID to be specified.
+#' the actual account number(s) and the encrypted ID(s) of the user
+#' that were granted when authenticating. The encrypted IDs are used
+#' in other functions (like orders and transactions) that require a
+#' specific encrypted account ID to be specified.
 #'
 #' @return Returns a data frame containing the account numbers
 #'         and their encrypted values.

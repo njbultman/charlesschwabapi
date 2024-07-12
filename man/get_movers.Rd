@@ -13,7 +13,7 @@ get_movers(tokens, symbol_id, sort = NULL, frequency = NULL)
 
 \item{sort}{the attribute that you would like sorted by. Valid values are "VOLUME", "TRADES", "PERCENT_CHANGE_UP", and "PERCENT_CHANGE_DOWN". Default is NULL, which is VOLUME (string).}
 
-\item{frequency}{to return movers wit hthe specified directions of up or down. Valid values are 0, 1, 5, 10, 30, or 60. Default is NULL, which is zero (numeric).}
+\item{frequency}{to return movers with hthe specified directions of up or down. Valid values are 0, 1, 5, 10, 30, or 60. Default is NULL, which is zero (numeric).}
 }
 \value{
 Returns a data frame containing information surrounding
@@ -22,11 +22,10 @@ Returns a data frame containing information surrounding
 \description{
 Given the tokens object from the `get_authentication_tokens`
 function and the symbol of interest, return the top 10 securities
-movement for a specific index in a data frame.
+movement for a specific index in a data frame. By default, it is
+sorted by volume and the frequency is 0, but these can be tweaked.
 }
 \author{
 Nick Bultman, \email{njbultman74@gmail.com}, June 2024
 }
-\keyword{chain}
-\keyword{expiration}
-\keyword{option}
+\keyword{movers}

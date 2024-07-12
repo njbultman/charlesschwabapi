@@ -11,7 +11,7 @@ get_quotes_single_symbol(tokens, symbol_id, fields = NULL)
 
 \item{symbol_id}{symbol for the security of interest}
 
-\item{fields}{request for subset of data. Possible values are NULL, "all", "quote", "fundamental", "extended", "reference", or "regular". Note these can be combined in a vector or a string with a value can be used (string or vector).}
+\item{fields}{request for subset of data. Possible values are NULL, "all", "quote", "fundamental", "extended", "reference", or "regular". Note these can be combined in a vector or a string with a value can be used. The default is NULL, which is everything (string or vector).}
 }
 \value{
 Returns a data frame containing information about the
@@ -23,6 +23,8 @@ function and the symbol ID, return a data frame
 containing information about that symbol. Note that this
 function can return information that goes beyond a standard
 quote (for example, fundamental information can be returned).
+By default, everything is returned, but the specific information
+returned can be customized through the `fields` argument below.
 }
 \author{
 Nick Bultman, \email{njbultman74@gmail.com}, June 2024

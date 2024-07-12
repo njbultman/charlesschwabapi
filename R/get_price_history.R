@@ -15,7 +15,7 @@
 #'
 #' Additionally, there are defaults for parameters that are dependent on
 #' other parameters. For the period parameter, if the period type is "day",
-#' the defualt period is 10, otherwise it is 1. For the frequency type
+#' the default period is 10, otherwise it is 1. For the frequency type
 #' parameter, if it is "day" then the default value is "minute", otherwise
 #' it is "monthly" for year and "weekly" for the others.
 #'

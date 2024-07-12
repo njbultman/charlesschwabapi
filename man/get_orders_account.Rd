@@ -25,7 +25,7 @@ get_orders_account(
 
 \item{max_results}{maximum number of results to be returned - default is NULL, which is 3000 (numeric).}
 
-\item{status}{only orders of this status should be returned. Valid values are "AWAITING_PARENT_ORDER", "AWAITING_CONDITION", "AWAITING_STOP_CONDITION", "AWAITING_MANUAL_REVIEW", "ACCEPTED", "AWAITING_UR_OUT", "PENDING_ACTIVATION", "QUEUED", "WORKING", "REJECTED", "PENDING_CANCEL", "CANCELED", "PENDING_REPLACE", "REPLACED", "FILLED", "EXPIRED", "NEW", "AWAITING_RELEASE_TIME", "PENDING_ACKNOWLEDGEMENT", "PENDING_RECALL", and "UNKNOWN" (string).}
+\item{status}{only orders of this status should be returned. Default is NULL, which is all statuses. Valid values are "AWAITING_PARENT_ORDER", "AWAITING_CONDITION", "AWAITING_STOP_CONDITION", "AWAITING_MANUAL_REVIEW", "ACCEPTED", "AWAITING_UR_OUT", "PENDING_ACTIVATION", "QUEUED", "WORKING", "REJECTED", "PENDING_CANCEL", "CANCELED", "PENDING_REPLACE", "REPLACED", "FILLED", "EXPIRED", "NEW", "AWAITING_RELEASE_TIME", "PENDING_ACKNOWLEDGEMENT", "PENDING_RECALL", and "UNKNOWN" (string).}
 }
 \value{
 Returns a data frame containing order information
@@ -35,7 +35,7 @@ Returns a data frame containing order information
 Given the tokens object from the `get_authentication_tokens`
 function and the encrypted account ID, return a data frame
 containing the orders for the specific account.
-By default, it will return orders (default max is 3000)
+By default, it will return all orders (default max is 3000)
 from the last 60 days. This can be adjusted through
 additional function parameters.
 }

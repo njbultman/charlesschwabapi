@@ -6,7 +6,7 @@
 #' the search.
 #'
 #' @return Returns a data frame containing information surrounding
-#' the symbol(s) of interest in the search.
+#'         the symbol(s) of interest in the search.
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords instrument instruments search
 #' @importFrom httr GET add_headers content status_code

@@ -13,9 +13,9 @@ get_market_hours(
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{markets}{markets of interest that are "equity", "option", "bond", "future", and/or "forex" (string or character vector).}
+\item{markets}{markets of interest that are "equity", "option", "bond", "future", and/or "forex". Default is all markets (string or character vector).}
 
-\item{date}{date you would like to get the hours of operation. Valid dates are today through one year from now (date).}
+\item{date}{date you would like to get the hours of operation. Valid dates are today through one year from now. Default is NULL, which is today (date).}
 }
 \value{
 Returns a data frame containing information surrounding
@@ -24,7 +24,7 @@ Returns a data frame containing information surrounding
 \description{
 Given the tokens object from the `get_authentication_tokens`
 function, return a data frame containing information about the
-market of interest and its specific hours of operation. By
+market(s) of interest and its specific hours of operation. By
 default, all of the markets are returned for today's date, but
 both the specific markets returned and the date can be tweaked.
 Please see the parameters for more specifics related to what can
