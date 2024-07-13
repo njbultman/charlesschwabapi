@@ -1,6 +1,6 @@
 # charlesschwabapi
 
-## R Package Wrapper Around Charles Schwab Individual Trader API
+## R Package Wrapper Around 'Charles Schwab Individual Trader API'
 
 ### Installation
 Install latest development version through GitHub via `devtools` package:
