@@ -11,7 +11,7 @@ Description: For those wishing to interact with the 'Charles Schwab Individual T
 License: MIT
 Encoding: UTF-8
 RoxygenNote: 7.3.1
-Imports: httr, lubridate, stringr, purrr, tidyr, anytime, dplyr, openssl, jsonlite
+Imports: httr, lubridate, stringr, purrr, tidyr, anytime, dplyr, openssl
 Suggests: 
     testthat (>= 3.0.0),
     covr

@@ -23,8 +23,10 @@ test_that("invalid class type for request body throws error", {
 })
 # Test 4: Bad API call throws error
 test_that("bad API call throws error", {
+  json_object <- list()
+  class(json_object) <- "json"
   expect_error(place_order(list(),
                            account_number = "test",
-                           request_body = jsonlite::toJSON(list())), # nolint
+                           request_body = json_object), # nolint
                "Error during API call - please check inputs and ensure access token is refreshed.") # nolint
 })
