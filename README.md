@@ -58,7 +58,7 @@ tokens <- charlesschwabapi::get_authentication_tokens(app_key, redirect_uri, app
 Now that authentication is situated, the object with token information (`tokens` above) can be used for other functions to gather data. For example, to get account information, one can call the `get_account_numbers` function and pass in the token information object (`tokens`) to return a data frame containing information related to the authenticated user's accounts.
 ```R
 # Get account number information
-account_numbers <- get_account_numbers(tokens)
+account_numbers <- charlesschwabapi::get_account_numbers(tokens)
 ```
 While account number information is important to know, it is particularly useful when one wants to obtain the encrypted ID of the account to pass to other functions requiring it. For example, the `get_orders_account` function requires the encrypted account, so the information obtained from `get_account_numbers` can be used for `get_orders_account`.
 ```R
@@ -66,6 +66,6 @@ While account number information is important to know, it is particularly useful
 account_number <- account_numbers$hashValue[1]
 
 # Then, this value can be passed into get_orders_account
-account_orders <- get_orders_account(tokens, account_number)
+account_orders <- charlesschwabapi::get_orders_account(tokens, account_number)
 ```
 There are many additional functions available to gather not only information about the user's accounts but also general market information (quotes, option chains, price history, and more). It is encouraged to look through all the documentation pertaining to each function and the documentation related to the Individual Trader API on the Charles Schwab developer site to fully explore and understand the capabilities to make the most of this package.
