@@ -1,7 +1,7 @@
 Package: charlesschwabapi
 Type: Package
 Title: Wrapper Functions Around 'Charles Schwab Individual Trader API'
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     c(person(given = "Nick",
              family = "Bultman",

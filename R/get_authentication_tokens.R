@@ -67,7 +67,7 @@ get_authentication_tokens <- function(app_key,
   }
   # If access/refresh tokens valid, return the RDS object with no changes and inform user # nolint
   if (access_token_expire == "Valid" && refresh_token_expire == "Valid") {
-    print("Access/refresh tokens both valid. Returning same tokens.")
+    message("Access/refresh tokens both valid. Returning same tokens.")
     resp <- tokens
   }
   # If refresh token valid, refresh access token via refresh token
@@ -91,7 +91,7 @@ get_authentication_tokens <- function(app_key,
                            "&redirect_uri=",
                            redirect_uri)
       # Inform user what to do when login page launched
-      cat("Enter login credentials in the opening web page.\nWhen finished, copy and paste the URL into the console below and hit enter.\n") # nolint
+      message("Enter login credentials in the opening web page.\nWhen finished, copy and paste the URL into the console below and hit enter.\n") # nolint
       # Open login page in browser
       suppressMessages(utils::browseURL(login_page))
       # Create variable for returned URL after login
@@ -127,7 +127,7 @@ get_authentication_tokens <- function(app_key,
       # Save token information list in RDS object at user specified location
       saveRDS(resp, paste0(token_save_path, "/charlesschwabapi_tokens.rds"))
       # Inform user of success and return object to user
-      print(paste0("Authentication succcessful. Tokens saved at: ",
+      message(paste0("Authentication succcessful. Tokens saved at: ",
                    token_save_path, "/charlesschwabapi_tokens.rds"))
       # Otherwise, stop program and inform user
     } else {

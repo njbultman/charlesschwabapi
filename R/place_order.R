@@ -40,8 +40,8 @@ place_order <- function(tokens,
                                             `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
   # Check if valid response returned (200)
   if (httr::status_code(request) == 200) {
-    # Print message informing user that order was successfully placed/created
-    print("Order was successfully placed/created.")
+    # Inform user that order was successfully placed/created
+    message("Order was successfully placed/created.")
     # Return NULL
     return(NULL)
     # If invalid response, throw error and inform user

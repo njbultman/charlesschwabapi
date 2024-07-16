@@ -30,8 +30,8 @@ cancel_order <- function(tokens,
                                             `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
   # Check if valid response returned (200)
   if (httr::status_code(request) == 200) {
-    # Print message informing user that order was successfully cancelled
-    print("Order was successfully cancelled.")
+    # Inform user that order was successfully cancelled
+    message("Order was successfully cancelled.")
     # Return NULL
     return(NULL)
     # If invalid response, throw error and inform user

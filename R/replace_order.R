@@ -43,8 +43,8 @@ replace_order <- function(tokens,
                                             `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
   # Check if valid response returned (200)
   if (httr::status_code(request) == 200) {
-    # Print message informing user that order was successfully replaced/created
-    print("Order was successfully replaced/created.")
+    # Inform user that order was successfully replaced/created
+    message("Order was successfully replaced/created.")
     # Return NULL
     return(NULL)
     # If invalid response, throw error and inform user

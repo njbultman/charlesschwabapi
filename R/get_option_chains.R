@@ -121,7 +121,7 @@ get_option_chains <- function(tokens,
   # Check if valid response returned (200)
   if (httr::status_code(request) == 200) {
     # Inform user call was successful, so starting process
-    print(paste0("Call successful for ", symbol, ", preparing data now, which can take some time depending on the symbol...")) # nolint
+    message(paste0("Call successful for ", symbol, ", preparing data now, which can take some time depending on the symbol...")) # nolint
     # Extract content from request
     req_list <- httr::content(request)
     # Only keep elements that have one value (these will be appended to final data frame later) # nolint
