@@ -3,10 +3,19 @@
 ## R Package Wrapper Around 'Charles Schwab Individual Trader API'
 
 ### Installation
-Install latest development version through GitHub via `devtools` package:
+Install release version from CRAN::
 
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-last-release/charlesschwabapi)](https://cran.r-project.org/package=sleeperapi)
+[![downloads](https://cranlogs.r-pkg.org/badges/grand-total/charlesschwabapi)](https://www.r-pkg.org/services)
 [![R-CMD-check](https://github.com/njbultman/charlesschwabapi/workflows/R-CMD-check/badge.svg)](https://github.com/njbultman/charlesschwabapi/actions) 
 [![Codecov test coverage](https://codecov.io/gh/njbultman/charlesschwabapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/njbultman/charlesschwabapi?branch=main)
+
+```R
+install.packages("charlesschwabapi")
+library(charlesschwabapi)
+```
+
+Install latest development version through GitHub via `devtools` package:
 ```R
 install.packages("devtools") # If have not installed package already
 library(devtools)
