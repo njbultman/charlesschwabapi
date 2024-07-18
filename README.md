@@ -3,7 +3,7 @@
 ## R Package Wrapper Around 'Charles Schwab Individual Trader API'
 
 ### Installation
-Install release version from CRAN::
+Install release version from CRAN:
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-last-release/charlesschwabapi)](https://cran.r-project.org/package=sleeperapi)
 [![downloads](https://cranlogs.r-pkg.org/badges/grand-total/charlesschwabapi)](https://www.r-pkg.org/services)
