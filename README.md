@@ -5,7 +5,7 @@
 ### Installation
 Install release version from CRAN:
 
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-last-release/charlesschwabapi)](https://cran.r-project.org/package=sleeperapi)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-last-release/charlesschwabapi)](https://cran.r-project.org/package=charlesschwabapi)
 [![downloads](https://cranlogs.r-pkg.org/badges/grand-total/charlesschwabapi)](https://www.r-pkg.org/services)
 [![R-CMD-check](https://github.com/njbultman/charlesschwabapi/workflows/R-CMD-check/badge.svg)](https://github.com/njbultman/charlesschwabapi/actions) 
 [![Codecov test coverage](https://codecov.io/gh/njbultman/charlesschwabapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/njbultman/charlesschwabapi?branch=main)
