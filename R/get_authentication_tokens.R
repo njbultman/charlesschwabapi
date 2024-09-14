@@ -95,7 +95,7 @@ get_authentication_tokens <- function(app_key,
       # Open login page in browser
       suppressMessages(utils::browseURL(login_page))
       # Create variable for returned URL after login
-      return_url <- readLines("stdin", n = 1)
+      return_url <- readLines(stdin(), n = 1)
       # Get CS code
       csapi_code <- paste0(stringr::str_sub(return_url,
                                             start = stringr::str_locate(return_url, # nolint
