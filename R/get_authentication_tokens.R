@@ -121,14 +121,15 @@ get_authentication_tokens <- function(app_key,
       resp <- c(resp,
                 list(access_token_exp = token_time + lubridate::minutes(30),
                      # If new access token based off of refresh token, only update access token expiration, otherwise update both tokens' expirations # nolint
-                     refresh_token_exp = ifelse(refresh_token_expire == "Valid",
-                                                as.POSIXct(tokens$refresh_token_exp, tz = Sys.timezone()), # nolint
-                                                as.POSIXct(token_time + lubridate::days(7))))) # nolint
+                     refresh_token_exp = as.POSIXct(ifelse(refresh_token_expire == "Valid", # nolint
+                                                           tokens$refresh_token_exp, # nolint
+                                                           token_time + lubridate::days(7)), # nolint
+                                                     tz = Sys.timezone()))) # nolint
       # Save token information list in RDS object at user specified location
       saveRDS(resp, paste0(token_save_path, "/charlesschwabapi_tokens.rds"))
       # Inform user of success and return object to user
       message(paste0("Authentication succcessful. Tokens saved at: ",
-                   token_save_path, "/charlesschwabapi_tokens.rds"))
+                     token_save_path, "/charlesschwabapi_tokens.rds"))
       # Otherwise, stop program and inform user
     } else {
       stop("Error in authentication: Check your refresh token (as applicable), app_key, app_secret, and redirect_uri.") # nolint
