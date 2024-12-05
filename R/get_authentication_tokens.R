@@ -90,12 +90,18 @@ get_authentication_tokens <- function(app_key,
                            app_key,
                            "&redirect_uri=",
                            redirect_uri)
-      # Inform user what to do when login page launched
-      message("Enter login credentials in the opening web page.\nWhen finished, copy and paste the URL into the console below and hit enter.\n") # nolint
       # Open login page in browser
       suppressMessages(utils::browseURL(login_page))
-      # Create variable for returned URL after login
-      return_url <- readLines(stdin(), n = 1)
+      # Create variable for returned URL after login (split by whether interactive session or not) # nolint
+      if (interactive()) {
+        # Inform user what to do when login page launched
+        message("Enter login credentials in the opening web page.\nWhen finished, copy and paste the URL into the console below and hit enter.\n") # nolint
+        return_url <- readLines(stdin(), n = 1)
+      } else {
+        # Inform user what to do when login page launched
+        cat("Enter login credentials in the opening web page.\nWhen finished, copy and paste the URL into the console below and hit enter.\n") # nolint
+        return_url <- readLines("stdin", n = 1)
+      }
       # Get CS code
       csapi_code <- paste0(stringr::str_sub(return_url,
                                             start = stringr::str_locate(return_url, # nolint
