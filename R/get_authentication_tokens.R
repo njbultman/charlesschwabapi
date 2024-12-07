@@ -122,15 +122,24 @@ get_authentication_tokens <- function(app_key,
     }
     # If status code is 200 (success), save token
     if (httr::status_code(pg) == 200) {
-      token_time <- as.POSIXct(pg[["date"]], tz = Sys.timezone())
+      token_time <- as.POSIXct(pg[["date"]],
+                               tz = Sys.timezone(),
+                               origin = "1970-01-01")
+      # Access token expires in 30 minutes
+      access_token_exp <- token_time + lubridate::minutes(30)
+      # If refresh token is valid, keep same expiration value
+      if (refresh_token_expire == "Valid") {
+        refresh_token_exp <- tokens$refresh_token_exp
+      } else {
+        # Otherwise, add seven days to the new token time
+        refresh_token_exp <- token_time + lubridate::days(7)
+      }
       resp <- httr::content(pg)
       resp <- c(resp,
-                list(access_token_exp = token_time + lubridate::minutes(30),
-                     # If new access token based off of refresh token, only update access token expiration, otherwise update both tokens' expirations # nolint
-                     refresh_token_exp = as.POSIXct(ifelse(refresh_token_expire == "Valid", # nolint
-                                                           tokens$refresh_token_exp, # nolint
-                                                           token_time + lubridate::days(7)), # nolint
-                                                     tz = Sys.timezone()))) # nolint
+        list(access_token_exp = access_token_exp,
+          refresh_token_exp = refresh_token_exp
+        )
+      )
       # Save token information list in RDS object at user specified location
       saveRDS(resp, paste0(token_save_path, "/charlesschwabapi_tokens.rds"))
       # Inform user of success and return object to user
