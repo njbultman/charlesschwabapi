@@ -21,10 +21,10 @@ test_that("invalid class type for projection throws error", {
                                projection = 1),
                "Tokens parameter must be a list, symbol should be a string or character vector, and projection should be strings.") #nolint
 })
-# Test 4: Bad API call throws error
-test_that("bad API call throws error", {
-  expect_error(get_instruments(list(),
-                               symbol = "test",
-                               projection = "symbol-search"),
-               "Error during API call - please check token input object and ensure access token is refreshed.") #nolint
+# Test 4: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_instruments(list(),
+                                 symbol = "AAPL",
+                                 projection = "symbol-search"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })

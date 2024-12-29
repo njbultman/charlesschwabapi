@@ -69,12 +69,12 @@ Now that authentication is situated, the object with token information (`tokens`
 # Get account number information
 account_numbers <- charlesschwabapi::get_account_numbers(tokens)
 ```
-While account number information is important to know, it is particularly useful when one wants to obtain the encrypted ID of the account to pass to other functions requiring it. For example, the `get_orders_account` function requires the encrypted account, so the information obtained from `get_account_numbers` can be used for `get_orders_account`.
+While account number information is important to know, it is particularly useful when one wants to obtain the encrypted ID of the account to pass to other functions requiring it. For example, the `get_orders_account` function requires the encrypted account ID, so the information obtained from `get_account_numbers` can be used for `get_orders_account`.
 ```R
 # Obtain encrypted account ID for first account in account_numbers data frame
-account_number <- account_numbers$hashValue[1]
+encrypted_account_id <- account_numbers$hashValue[1]
 
 # Then, this value can be passed into get_orders_account
-account_orders <- charlesschwabapi::get_orders_account(tokens, account_number)
+account_orders <- charlesschwabapi::get_orders_account(tokens, encrypted_account_id)
 ```
 There are many additional functions available to gather not only information about the user's accounts but also general market information (quotes, option chains, price history, and more). It is encouraged to look through all the documentation pertaining to each function and the documentation related to the Individual Trader API on the Charles Schwab developer site to fully explore and understand the capabilities to make the most of this package.

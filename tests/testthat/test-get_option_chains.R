@@ -90,9 +90,9 @@ test_that("invalid value for volatility when strategy is ANALYTICAL throws error
                                  volatility = "test"), # nolint
                "Volatility, underlying price, interest rate, and days to expiration should only be non-NULL when strategy is ANALYTICAL.") # nolint
 })
-# Test 14: Bad API call throws error
-test_that("bad API call throws error", { # nolint
-  expect_error(get_option_chains(list(),
-                                 symbol = "AAPL"), # nolint
-               "Error during API call - please check inputs and ensure access token is refreshed. Also, be sure to check that the symbol is specified correctly.") # nolint
+# Test 14: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_option_chains(list(),
+                                   symbol = "TSLA"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })

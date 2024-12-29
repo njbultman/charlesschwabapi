@@ -38,15 +38,9 @@ test_that("invalid value for sort throws error", {
                           sort = "test"),
                "Sort must be 'VOLUME', 'TRADES', 'PERCENT_CHANGE_UP', or 'PERCENT_CHANGE_DOWN'.") # nolint
 })
-# Test 6: Invalid value for symbol ID throws error
-# test_that("invalid value for symbol ID throws error", {
-#   expect_error(get_movers(list(),
-#                           symbol_id = "error"),
-#                "Symbol ID must be '$DJI', '$COMPX', '$SPX', 'NYSE', 'NASDAQ', 'OTCBB', 'INDEX_ALL', 'EQUITY_ALL', 'OPTION_ALL', 'OPTION_PUT', or 'OPTION_CALL'.") # nolint
-# })
-# Test 7: Bad API call throws error
-test_that("bad API call throws error", {
-  expect_error(get_movers(list(),
-                          symbol_id = "$DJI"),
-               "Error during API call - please check inputs and ensure access token is refreshed.") # nolint
+# Test 6: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_movers(list(),
+                            symbol_id = "$DJI"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })

@@ -35,9 +35,8 @@ test_that("invalid value for status throws error", {
                           status = "test"), # nolint
                "Status must be NULL or 'AWAITING_PARENT_ORDER', 'AWAITING_CONDITION', 'AWAITING_STOP_CONDITION', 'AWAITING_MANUAL_REVIEW', 'ACCEPTED', 'AWAITING_UR_OUT', 'PENDING_ACTIVATION', 'QUEUED', 'WORKING', 'REJECTED', 'PENDING_CANCEL', 'CANCELED', 'PENDING_REPLACE', 'REPLACED', 'FILLED', 'EXPIRED', 'NEW', 'AWAITING_RELEASE_TIME', 'PENDING_ACKNOWLEDGEMENT', 'PENDING_RECALL', or 'UNKNOWN'.") # nolint
 })
-# Test 7: Bad API call throws error
+# Test 7: Bad API authentication call throws error
 test_that("bad API call throws error", {
-  expect_error(get_orders(list(),
-                          status = "CANCELED"), # nolint
-               "Error during API call - please check inputs and ensure access token is refreshed.") # nolint
+  expect_message(get_orders(list()),
+               "401 error - authorization token is invalid or there are no accounts allowed to view/use for trading that are registered with the provided third party application. More specifics on error are below:") # nolint
 })

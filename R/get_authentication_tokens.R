@@ -142,9 +142,15 @@ get_authentication_tokens <- function(app_key,
       )
       # Save token information list in RDS object at user specified location
       saveRDS(resp, paste0(token_save_path, "/charlesschwabapi_tokens.rds"))
-      # Inform user of success and return object to user
-      message(paste0("Authentication succcessful. Tokens saved at: ",
-                     token_save_path, "/charlesschwabapi_tokens.rds"))
+      # If automatic refresh, inform user authentication was successful with specific message #nolint
+      if (refresh_token_expire == "Valid") {
+        message(paste0("Automatic authentication via refresh token succcessful. Tokens saved at: ", # nolint
+                       token_save_path, "/charlesschwabapi_tokens.rds"))
+        # Otherwise, inform user authentication was successful with another message #nolint
+      } else {
+        message(paste0("Authentication succcessful. Tokens saved at: ",
+                       token_save_path, "/charlesschwabapi_tokens.rds"))
+      }
       # Otherwise, stop program and inform user
     } else {
       stop("Error in authentication: Check your refresh token (as applicable), app_key, app_secret, and redirect_uri.") # nolint

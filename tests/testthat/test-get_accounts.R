@@ -11,9 +11,9 @@ test_that("invalid class type for fields throws error", {
                             fields = 1), # nolint
                "Tokens must be a list and fields must be NULL, a string, or character vector.") # nolint
 })
-# Test 3: Bad API call throws error
+# Test 3: Bad API authentication call throws error
 test_that("bad API call throws error", {
-  expect_error(get_accounts(list(),
+  expect_message(get_accounts(list(),
                             fields = "test"), # nolint
-               "Error during API call - please check token input object, ensure access token is refreshed, and make sure fields is appropriately defined.") # nolint
+               "401 error - authorization token is invalid or there are no accounts allowed to view/use for trading that are registered with the provided third party application. More specifics on error are below:") # nolint
 })

@@ -15,8 +15,8 @@
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
-#' @param from_entered_datetime encrypted ID of the account - default is current datetime less 60 days (string).
-#' @param to_entered_datetime specific fields to be returned - default is current datetime (string).
+#' @param from_entered_datetime start of time range for orders that should be gathered - default is current datetime less 60 days (string).
+#' @param to_entered_datetime end of time range for orders that should be gathered - default is current datetime (string).
 #' @param max_results maximum number of results to be returned - default is NULL, which is 3000 (numeric).
 #' @param status only orders of this status should be returned. Default is NULL, which is all statuses. Valid values are "AWAITING_PARENT_ORDER", "AWAITING_CONDITION", "AWAITING_STOP_CONDITION", "AWAITING_MANUAL_REVIEW", "ACCEPTED", "AWAITING_UR_OUT", "PENDING_ACTIVATION", "QUEUED", "WORKING", "REJECTED", "PENDING_CANCEL", "CANCELED", "PENDING_REPLACE", "REPLACED", "FILLED", "EXPIRED", "NEW", "AWAITING_RELEASE_TIME", "PENDING_ACKNOWLEDGEMENT", "PENDING_RECALL", and "UNKNOWN" (string).
 #'
@@ -45,16 +45,46 @@ get_orders <- function(tokens,
                        query = query,
                        httr::add_headers(`accept` = "application/json",
                                          `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
+  # Extract status code from request
+  request_status_code <- httr::status_code(request)
+  # Extract content from request
+  req_list <- httr::content(request)
   # Check if valid response returned (200)
-  if (httr::status_code(request) == 200) {
+  if (request_status_code == 200) {
     # Extract content from request
     req_list <- httr::content(request)
     # Transform list to data frame
     req_df <- dplyr::bind_rows(req_list)
     # Return data frame
     return(req_df)
-    # If invalid response, throw error and inform user
+    # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
+  } else if (request_status_code == 400) {
+    message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint
+            "More specifics on error are below:")
+    print(unlist(req_list))
+  } else if (request_status_code == 401) {
+    message("401 error - authorization token is invalid or there are no accounts allowed to view/use for trading that are registered with the provided third party application. ", #nolint
+            "More specifics on error are below:")
+    print(unlist(req_list))
+  } else if (request_status_code == 403) {
+    message("403 error - caller is forbidden from accessing this service. ", #nolint
+            "More specifics on error are below:")
+    print(unlist(req_list))
+  } else if (request_status_code == 404) {
+    message("404 error - resource is not found. Double check inputs and try again later. ", #nolint
+            "More specifics on error are below:")
+    print(unlist(req_list))
+  } else if (request_status_code == 500) {
+    message("500 error - unexpected server error. Please try again later. ", #nolint
+            "More specifics on error are below:")
+    print(unlist(req_list))
+  } else if (request_status_code == 503) {
+    message("503 error - server has a temporary problem responding. Please try again later. ", #nolint
+            "More specifics on error are below:")
+    print(unlist(req_list))
   } else {
-    stop("Error during API call - please check inputs and ensure access token is refreshed.") # nolint
+    # If another error is encountered that is not in documentation, inform/print it for the user #nolint
+    message("Error during API call - more specifics are below: ")
+    print(unlist(req_list))
   }
 }

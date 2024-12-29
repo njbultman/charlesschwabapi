@@ -67,9 +67,9 @@ test_that("invalid class type for need previous close throws error", {
                                  need_previous_close = "hello"), # nolint
                "Start/end dates must be a date and extended hours and previous close must be boolean.") # nolint
 })
-# Test 11: Bad API call throws error
-test_that("bad API call throws error", {
-  expect_error(get_price_history(list(),
-                                 symbol = "GOOG"), # nolint
-               "Error during API call - please check inputs and ensure access token is refreshed.") # nolint
+# Test 11: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_price_history(list(),
+                                   symbol = "AAPL"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })

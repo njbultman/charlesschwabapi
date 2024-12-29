@@ -12,9 +12,9 @@ test_that("invalid class type for cusip throws error", {
                                      cusip_id = 1),
                "Tokens parameter must be a list and cusip must be a string.") # nolint
 })
-# Test 3: Bad API call throws error
-test_that("bad API call throws error", {
-  expect_error(get_instruments_cusip(list(),
-                                     cusip_id = "test"),
-               "Error during API call - please check cusip & token input object, and ensure access token is refreshed.") # nolint
+# Test 3: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_instruments_cusip(list(),
+                                       cusip_id = "test"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })

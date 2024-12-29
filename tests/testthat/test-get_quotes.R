@@ -47,9 +47,9 @@ test_that("fields vector containing unnaceptable values throws error", {
                           fields = "test"),
                "Fields parameter must be NULL, 'all' or combination of these: 'quote', 'fundamental', 'extended', 'reference', or 'regular'.") # nolint
 })
-# Test 8: Bad API call throws error
-test_that("bad API call throws error", {
-  expect_error(get_quotes(tokens = list(),
-                          symbols = "test"),
-               "Error during call - please check inputs and ensure access token is refreshed.") # nolint
+# Test 8: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_quotes(list(),
+                            symbols = "AAPL"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })

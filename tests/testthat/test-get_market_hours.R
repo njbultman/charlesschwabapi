@@ -32,9 +32,9 @@ test_that("invalid value for date throws error", {
                                 date = as.Date("2020-01-01")),
                "Date must be today or no greater than one year in the future when not NULL.") # nolint
 })
-# Test 6: Bad API call throws error
-test_that("bad API call throws error", {
-  expect_error(get_market_hours(list(),
-                                markets = "equity"),
-               "Error during API call - please check inputs and ensure access token is refreshed.") # nolint
+# Test 6: Bad API authentication call throws error
+test_that("bad API authentication call throws error", {
+  expect_message(get_market_hours(list(),
+                                  markets = "equity"),
+               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
 })
