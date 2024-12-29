@@ -4,12 +4,12 @@
 \alias{get_transaction}
 \title{Get Specific Transaction Information}
 \usage{
-get_transaction(tokens, account_number, transaction_id)
+get_transaction(tokens, encrypted_account_id, transaction_id)
 }
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{account_number}{encrypted ID of the account (string).}
+\item{encrypted_account_id}{encrypted ID of the account from `get_account_numbers` function (string).}
 
 \item{transaction_id}{transaction ID of interest (numeric).}
 }

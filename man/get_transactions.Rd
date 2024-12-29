@@ -6,7 +6,7 @@
 \usage{
 get_transactions(
   tokens,
-  account_number,
+  encrypted_account_id,
   start_datetime = strftime(Sys.time() - lubridate::days(180), format =
     "\%Y-\%m-\%dT\%H:\%M:\%OS3Z"),
   end_datetime = strftime(Sys.time(), format = "\%Y-\%m-\%dT\%H:\%M:\%OS3Z"),
@@ -17,7 +17,7 @@ get_transactions(
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{account_number}{encrypted ID of the account (string).}
+\item{encrypted_account_id}{encrypted ID of the account from `get_account_numbers` function (string).}
 
 \item{start_datetime}{datetime that you would like to start gathering transactions from, in yyyy-mm-dd'T'HH:mm:ss.SSSZ format. Default is current datetime less 180 days (string).}
 
@@ -33,7 +33,7 @@ Returns a data frame containing the account's transaction
 }
 \description{
 Given the tokens object from the `get_authentication_tokens`
-function and the encrypted account number of interest, get
+function and the encrypted ID for the account number of interest, get
 the transactions associated with that account number. By
 default, the last 180 days worth of transactions are returned.
 However, this can be tweaked according to the date parameters

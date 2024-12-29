@@ -4,12 +4,12 @@
 \alias{place_order}
 \title{Place Order for Specific Account}
 \usage{
-place_order(tokens, account_number, request_body)
+place_order(tokens, encrypted_account_id, request_body)
 }
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{account_number}{encrypted ID of the account (string).}
+\item{encrypted_account_id}{encrypted ID of the account from `get_account_numbers` function (string).}
 
 \item{request_body}{Valid request to API for placing an order (JSON).}
 }
@@ -28,8 +28,7 @@ a result, it is strongly encouraged to look at the documentation for how
 to build the proper orders for programmatic execution and do robust testing
 outside of market hours to ensure that when a live trade comes it
 will be just as the user intended. The user of this function assumes
-all risk that trades could not be executed exactly as intended as
-the API and this package are still under active development.
+all risk that trades could not be executed exactly as intended.
 }
 \author{
 Nick Bultman, \email{njbultman74@gmail.com}, July 2024

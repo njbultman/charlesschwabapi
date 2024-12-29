@@ -24,7 +24,7 @@ Returns a data frame containing information surrounding
 \description{
 Given the tokens object from the `get_authentication_tokens`
 function, return a data frame containing information about the
-market(s) of interest and its specific hours of operation. By
+market(s) of interest and the specific hours of operation. By
 default, all of the markets are returned for today's date, but
 both the specific markets returned and the date can be tweaked.
 Please see the parameters for more specifics related to what can

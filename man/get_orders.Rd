@@ -16,9 +16,9 @@ get_orders(
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{from_entered_datetime}{encrypted ID of the account - default is current datetime less 60 days (string).}
+\item{from_entered_datetime}{start of time range for orders that should be gathered - default is current datetime less 60 days (string).}
 
-\item{to_entered_datetime}{specific fields to be returned - default is current datetime (string).}
+\item{to_entered_datetime}{end of time range for orders that should be gathered - default is current datetime (string).}
 
 \item{max_results}{maximum number of results to be returned - default is NULL, which is 3000 (numeric).}
 

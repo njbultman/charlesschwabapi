@@ -25,7 +25,7 @@ function and the symbols of interest, return a data frame
 containing information about those symbols. Note that this
 function can return information that goes beyond a standard
 quote (for example, fundamental information can be returned).
-#' By default, everything is returned, but the specific information
+By default, everything is returned, but the specific information
 returned can be customized through the `fields` argument below.
 }
 \author{

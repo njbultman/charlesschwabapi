@@ -4,12 +4,12 @@
 \alias{cancel_order}
 \title{Cancel Specific Order by ID for Account}
 \usage{
-cancel_order(tokens, account_number, order_id)
+cancel_order(tokens, encrypted_account_id, order_id)
 }
 \arguments{
 \item{tokens}{token object from `get_authentication_tokens` function (list).}
 
-\item{account_number}{encrypted ID of the account (string).}
+\item{encrypted_account_id}{encrypted ID of the account from `get_account_numbers` function (string).}
 
 \item{order_id}{order ID for the order (numeric).}
 }
