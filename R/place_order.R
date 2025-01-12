@@ -32,7 +32,7 @@ place_order <- function(tokens,
   }
   # Define URL
   url <- paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders") # nolint
-  # Send GET request
+  # Send POST request
   request <- httr::POST(url = url,
                         body = request_body,
                         httr::add_headers(`Content-Type` = "application/json",
