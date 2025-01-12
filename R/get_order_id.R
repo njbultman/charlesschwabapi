@@ -33,8 +33,8 @@ get_order_id <- function(tokens,
   request_status_code <- httr::status_code(request)
   # Extract content from request
   req_list <- httr::content(request)
-  # Check if valid response returned (201)
-  if (request_status_code == 201) {
+  # Check if valid response returned (200)
+  if (request_status_code == 200) {
     # Transform list to data frame
     req_df <- as.data.frame(do.call(cbind, req_list))
     # Return data frame
