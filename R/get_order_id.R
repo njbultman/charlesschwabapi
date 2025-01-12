@@ -33,17 +33,10 @@ get_order_id <- function(tokens,
   request_status_code <- httr::status_code(request)
   # Extract content from request
   req_list <- httr::content(request)
-  # Check if valid response returned (200)
-  if (request_status_code == 200) {
+  # Check if valid response returned (201)
+  if (request_status_code == 201) {
     # Transform list to data frame
-    req_transf <- lapply(req_list, function(x) {
-      if (is.list(x) && !is.data.frame(x)) {
-        dplyr::bind_rows(x) # transform nested list to data frame
-      } else {
-        x # leave everything as-is
-      }
-    })
-    req_df <- dplyr::bind_rows(req_transf)
+    req_df <- as.data.frame(do.call(cbind, req_list))
     # Return data frame
     return(req_df)
   # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
