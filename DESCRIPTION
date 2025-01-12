@@ -9,7 +9,8 @@ Authors@R:
              email = "njbultman74@gmail.com"),
       person(given = "Todd",
              family = "Sykes",
-             role = c("ctb")))
+             role = c("ctb"),
+             email = "toddsykes@gmail.com"))
 Description: For those wishing to interact with the 'Charles Schwab Individual Trader API' (<https://developer.schwab.com/products/trader-api--individual>) with R in a simplified manner, this package offers wrapper functions around authentication and the available API calls to streamline the process.
 License: MIT + file LICENSE
 Encoding: UTF-8
