@@ -30,7 +30,6 @@ get_order_id <- function(tokens,
                        httr::add_headers(`accept` = "application/json",
                                          `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
   # Extract status code from request
-  request_status_code <- httr::status_code(request)
   message(paste("The request status code is", request_status_code))
   # Extract content from request
   req_list <- httr::content(request)
