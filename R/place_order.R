@@ -34,9 +34,9 @@ place_order <- function(tokens,
   url <- paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders") # nolint
   # Send GET request
   request <- httr::POST(url = url,
-                        query = request_body,
+                        body = request_body,
                         httr::add_headers(`Content-Type` = "application/json",
-                                          `Authorization` = paste0("Bearer ", tokens$access_token)), # nolint
+                                          `Authorization` = paste0("Bearer ", tokens$access_token)), #nolint
                         encode = "json")
   # Extract status code from request
   request_status_code <- httr::status_code(request)
