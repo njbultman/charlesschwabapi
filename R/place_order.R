@@ -35,8 +35,8 @@ place_order <- function(tokens,
   # Send GET request
   request <- httr::POST(url = url,
                         query = request_body,
-                        httr::add_headers(`accept` = "application/json",
-                                            `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
+                        httr::add_headers(`Content-Type` = "application/json",
+                                          `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
   # Extract status code from request
   request_status_code <- httr::status_code(request)
   # Extract content from request
