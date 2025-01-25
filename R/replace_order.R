@@ -37,7 +37,7 @@ replace_order <- function(tokens,
   url <- paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders/", order_id) # nolint
   # Send PUT request
   request <- httr::PUT(url = url,
-                       query = request_body,
+                       body = request_body,
                        httr::add_headers(`Content-Type` = "application/json",
                                             `Authorization` = paste0("Bearer ", tokens$access_token)), # nolint
                        encode = "json")

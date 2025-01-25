@@ -100,7 +100,7 @@ get_price_history <- function(tokens,
     stop("Frequency must be NULL, 1, 5, 10, 15, or 30 when frequency type is 'minute'.") # nolint
   }
   # If frequency is not NULL and frequency type is "daily", "weekly", or "monthly" then ensure frequency is NULL or 1 # nolint
-  if (!is.null(frequency) && (frequency_type == "daily" || frequency_type == "weekly" || frequency_type == "monthly")) { # nolint
+  if (!is.null(frequency) && frequency <> 1 && (frequency_type == "daily" || frequency_type == "weekly" || frequency_type == "monthly")) { # nolint
     stop("Frequency must be NULL or 1 when frequency type is 'daily', 'weekly', or 'monthly'.") # nolint
   }
   # Define URL for GET request
