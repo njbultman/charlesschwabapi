@@ -38,6 +38,11 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+.Rprofile
+*.Rproj
+
+# tokens rds files
+*.rds
 
 # pkgdown site
 docs/
