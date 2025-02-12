@@ -38,14 +38,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
-.Rprofile
-*.Rproj
-
-# tokens rds files
-*.rds
-
-# personal local test files 
-test-local-*.R
 
 # pkgdown site
 docs/
