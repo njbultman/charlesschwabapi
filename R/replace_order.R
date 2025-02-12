@@ -13,8 +13,8 @@
 #' all risk that trades could not be replaced (and then executed)
 #' exactly as intended.
 #'
-#' @return Returns a message informing the user if the order was successfully
-#'         replaced/created or if there was an error.
+#' @return Returns a numeric order number and a message informing the user if the order was successfully
+#'         placed/created or if there was an error.
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords order account replace
 #' @importFrom httr PUT add_headers content status_code
@@ -35,21 +35,24 @@ replace_order <- function(tokens,
   }
   # Define URL
   url <- paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders/", order_id) # nolint
-  # Send GET request
+  # Send PUT request
   request <- httr::PUT(url = url,
-                       query = request_body,
-                       httr::add_headers(`accept` = "application/json",
-                                            `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
+                       body = request_body,
+                       httr::add_headers(`Content-Type` = "application/json",
+                                            `Authorization` = paste0("Bearer ", tokens$access_token)), 
+                       encode = "json") # nolint
   # Extract status code from request
   request_status_code <- httr::status_code(request)
   # Extract content from request
   req_list <- httr::content(request)
-  # Check if valid response returned (200)
-  if (request_status_code == 200) {
+  # Check if valid response returned (201)
+  if (request_status_code == 201) {
     # Inform user that order was successfully replaced/created
     message("Order was successfully replaced/created.")
-    # Return NULL
-    return(NULL)
+    # Get the order number 
+    order_num <- sub( paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders/"), "", request$headers$location )
+    # Return the order number 
+    return( as.numeric(order_num) )
     # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
   } else if (request_status_code == 400) {
     message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint

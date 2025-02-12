@@ -12,7 +12,7 @@
 #' will be just as the user intended. The user of this function assumes
 #' all risk that trades could not be executed exactly as intended.
 #'
-#' @return Returns a message informing the user if the order was successfully
+#' @return Returns a numeric order number and a message informing the user if the order was successfully
 #'         placed/created or if there was an error.
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords order account place
@@ -32,7 +32,7 @@ place_order <- function(tokens,
   }
   # Define URL
   url <- paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders") # nolint
-  # Send GET request
+  # Send POST request
   request <- httr::POST(url = url,
                         body = request_body,
                         httr::add_headers(`Content-Type` = "application/json",
@@ -47,8 +47,10 @@ place_order <- function(tokens,
     # Inform user that order was successfully placed/created
     message("Order was successfully placed/created. More details are below. ")
     print(unlist(req_list))
-    # Return NULL
-    return(NULL)
+    # Get the order number 
+    order_num <- sub( paste0(url,"/"), "", request$headers$location )
+    # Return the order number 
+    return( as.numeric(order_num) )
     # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
   } else if (request_status_code == 400) {
     message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint
