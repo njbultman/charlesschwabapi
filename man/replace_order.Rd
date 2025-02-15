@@ -16,8 +16,8 @@ replace_order(tokens, encrypted_account_id, order_id, request_body)
 \item{request_body}{valid request to API for replacing an order (JSON).}
 }
 \value{
-Returns a message informing the user if the order was successfully
-        replaced/created or if there was an error.
+Returns a numeric order number and a message informing the user if the order was successfully
+        placed/created or if there was an error.
 }
 \description{
 Given the tokens object from the `get_authentication_tokens`

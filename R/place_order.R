@@ -47,10 +47,10 @@ place_order <- function(tokens,
     # Inform user that order was successfully placed/created
     message("Order was successfully placed/created. More details are below. ")
     print(unlist(req_list))
-    # Get the order number 
-    order_num <- sub( paste0(url,"/"), "", request$headers$location )
-    # Return the order number 
-    return( as.numeric(order_num) )
+    # Get the order number
+    order_num <- sub(paste0(url, "/"), "", request$headers$location)
+    # Return the order number
+    return( as.numeric(order_num))
     # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
   } else if (request_status_code == 400) {
     message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint

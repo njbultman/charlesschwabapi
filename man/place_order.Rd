@@ -14,7 +14,7 @@ place_order(tokens, encrypted_account_id, request_body)
 \item{request_body}{Valid request to API for placing an order (JSON).}
 }
 \value{
-Returns a message informing the user if the order was successfully
+Returns a numeric order number and a message informing the user if the order was successfully
         placed/created or if there was an error.
 }
 \description{

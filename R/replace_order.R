@@ -39,7 +39,7 @@ replace_order <- function(tokens,
   request <- httr::PUT(url = url,
                        body = request_body,
                        httr::add_headers(`Content-Type` = "application/json",
-                                            `Authorization` = paste0("Bearer ", tokens$access_token)), 
+                                         `Authorization` = paste0("Bearer ", tokens$access_token)),  # nolint
                        encode = "json") # nolint
   # Extract status code from request
   request_status_code <- httr::status_code(request)
@@ -49,10 +49,14 @@ replace_order <- function(tokens,
   if (request_status_code == 201) {
     # Inform user that order was successfully replaced/created
     message("Order was successfully replaced/created.")
-    # Get the order number 
-    order_num <- sub( paste0("https://api.schwabapi.com/trader/v1/accounts/", encrypted_account_id, "/orders/"), "", request$headers$location )
-    # Return the order number 
-    return( as.numeric(order_num) )
+    # Get the order number
+    order_num <- sub(paste0("https://api.schwabapi.com/trader/v1/accounts/",
+                            encrypted_account_id,
+                            "/orders/"),
+                     "",
+                     request$headers$location)
+    # Return the order number
+    return(as.numeric(order_num))
     # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
   } else if (request_status_code == 400) {
     message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint
