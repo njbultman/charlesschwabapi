@@ -9,7 +9,7 @@
 #' @author Nick Bultman, \email{njbultman74@@gmail.com}, July 2024
 #' @keywords order account ID
 #' @importFrom httr GET add_headers content status_code
-#' @importFrom dplyr bind_rows
+#' @importFrom tibble
 #' @export
 #'
 #' @param tokens token object from `get_authentication_tokens` function (list).
@@ -36,14 +36,7 @@ get_order_id <- function(tokens,
   # Check if valid response returned (200)
   if (request_status_code == 200) {
     # Transform list to data frame
-    req_transf <- lapply(req_list, function(x) {
-      if (is.list(x) && !is.data.frame(x)) {
-        dplyr::bind_rows(x) # transform nested list to data frame
-      } else {
-        x # leave everything as-is
-      }
-    })
-    req_df <- dplyr::bind_rows(req_transf)
+    req_df <- as_tibble(do.call(cbind, req_list))
     # Return data frame
     return(req_df)
   # If API call is not a good status code, go through other error codes called out in documentation and print error for user #nolint
