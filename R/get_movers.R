@@ -20,23 +20,30 @@
 #'
 get_movers <- function(tokens, symbol_id, sort = NULL, frequency = NULL) {
   # Ensure tokens parameter is a list
-  if (!is.list(tokens) || !is.character(symbol_id) || (!is.null(sort) && !is.character(sort)) || (!is.null(frequency) && !is.numeric(frequency))) { # nolint
-    stop("Tokens parameter must be a list, symbol and sort must be a strings, and frequency must be numeric.") # nolint
+  if (!is.list(tokens) || !is.character(symbol_id) || (!is.null(sort) && !is.character(sort)) || (!is.null(frequency) && !is.numeric(frequency))) {
+    stop("Tokens parameter must be a list, symbol and sort must be a strings, and frequency must be numeric.")
   }
   # Ensure symbol ID is one of the appropriate values
-  if (length(setdiff(symbol_id, c("$DJI", "$COMPX", "$SPX", "NYSE", "NASDAQ", "OTCBB", "INDEX_ALL", "EQUITY_ALL", "OPTION_ALL", "OPTION_PUT", "OPTION_CALL")) > 0)) { # nolint
-    stop("Symbol ID must be '$DJI', '$COMPX', '$SPX', 'NYSE', 'NASDAQ', 'OTCBB', 'INDEX_ALL', 'EQUITY_ALL', 'OPTION_ALL', 'OPTION_PUT', or 'OPTION_CALL'.") # nolint
+  if (length(setdiff(symbol_id, c("$DJI", "$COMPX", "$SPX", "NYSE", "NASDAQ", "OTCBB", "INDEX_ALL", "EQUITY_ALL", "OPTION_ALL", "OPTION_PUT", "OPTION_CALL")) > 0)) {
+    stop("Symbol ID must be '$DJI', '$COMPX', '$SPX', 'NYSE', 'NASDAQ', 'OTCBB', 'INDEX_ALL', 'EQUITY_ALL', 'OPTION_ALL', 'OPTION_PUT', or 'OPTION_CALL'.")
   }
   # Ensure sort is one of the appropriate values
-  if (!is.null(sort) && (length(setdiff(sort, c("VOLUME", "TRADES", "PERCENT_CHANGE_UP", "PERCENT_CHANGE_DOWN")) > 0))) { # nolint
-    stop("Sort must be 'VOLUME', 'TRADES', 'PERCENT_CHANGE_UP', or 'PERCENT_CHANGE_DOWN'.") # nolint
+  if (!is.null(sort) && (length(setdiff(sort, c("VOLUME", "TRADES", "PERCENT_CHANGE_UP", "PERCENT_CHANGE_DOWN")) > 0))) {
+    stop("Sort must be 'VOLUME', 'TRADES', 'PERCENT_CHANGE_UP', or 'PERCENT_CHANGE_DOWN'.")
   }
   # Ensure frequency is one of the appropriate values
-  if (!is.null(frequency) && (length(setdiff(frequency, c(0, 1, 5, 10, 30, 60)) > 0))) { # nolint
-    stop("Frequency must be 0, 1, 5, 10, 30, or 60.") # nolint
+  if (!is.null(frequency) && (length(setdiff(frequency, c(0, 1, 5, 10, 30, 60)) > 0))) {
+    stop("Frequency must be 0, 1, 5, 10, 30, or 60.")
   }
   # Define URL for GET request
   url <- paste0("https://api.schwabapi.com/marketdata/v1/movers/", symbol_id)
+  # Define list to hold error messages
+  error_messages <- list(
+    "400" = "400 error - validation problem with the request. Double check input objects, including tokens, and try again.",
+    "401" = "401 error - authorization token is invalid.",
+    "404" = "404 error - resource is not found. Double check inputs and try again later.",
+    "500" = "500 error - unexpected server error. Please try again later."
+  )
   # Define query parameters
   query <- list("sort" = sort,
                 "frequency" = frequency)
@@ -44,46 +51,27 @@ get_movers <- function(tokens, symbol_id, sort = NULL, frequency = NULL) {
   request <- httr::GET(url = url,
                        query = query,
                        httr::add_headers(`accept` = "application/json",
-                                         `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
-  # Extract status code from request
-  request_status_code <- httr::status_code(request)
-  # Try to extract content from request
-  req_list <- tryCatch(
-    expr = {
-      httr::content(request)
-    },
-    # If error in extracting, throw generic error message and print request object (more specifics follow below) #nolint
-    error = function(e) {
-      message("Error during API call:")
-      print(request)
-    }
-  )
+                                         `Authorization` = paste0("Bearer ", tokens$access_token)))
+  # Extract status code from request as string
+  request_status_code <- as.character(httr::status_code(request))
   # Check if valid response returned (200)
   if (request_status_code == 200) {
+    # Extract content from request
+    req_list <- httr::content(request)
     # Transform list to data frame
     req_df <- dplyr::bind_rows(req_list)
     # Return data frame
     return(req_df)
-    # Otherwise, cycle through errors and print content from error rather than generic error like above #nolint
-  } else if (request_status_code == 400) {
-    message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 401) {
-    message("401 error - authorization token is invalid. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 404) {
-    message("404 error - resource is not found. Double check inputs and try again later. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 500) {
-    message("500 error - unexpected server error. Please try again later. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
+    # If API call is not a good status code
   } else {
-    # If another error is encountered that is not in documentation, inform/print it for the user #nolint
-    message("Error during API call - more specifics are below: ")
-    print(unlist(req_list))
+    # Get appropriate error message
+    error_message <- error_messages[request_status_code]
+    # If cannot find any error message, set to generic message
+    if (is.null(error_message)) {
+      error_message <- "Error during API call."
+    }
+    # Print error message and details from call
+    message(paste(error_message, "More details are below:"))
+    print(unlist(request))
   }
 }

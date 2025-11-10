@@ -15,7 +15,7 @@ get_account(tokens, encrypted_account_id, fields = NULL)
 }
 \value{
 Returns a data frame containing the account
-        information. This includes position information
+        information. This includes position information,
         a day trader flag, the account number, and more.
 }
 \description{

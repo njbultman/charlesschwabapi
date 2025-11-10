@@ -57,49 +57,66 @@ get_option_chains <- function(tokens,
                               exp_month = NULL,
                               option_type = NULL,
                               entitlement = NULL) {
-  # Ensure tokens is a list and strike_count, interval, and strike are numeric while range is a string #nolint
-  if (!is.list(tokens) || (!is.null(strike_count) && !is.numeric(strike_count)) || (!is.null(interval) && !is.numeric(interval)) || (!is.null(strike) && !is.numeric(strike)) || (!is.null(range) && !is.character(range)) || (!is.null(option_type) && !is.character(option_type))) { # nolint
-    stop("Tokens must be a list and strike count, interval, and strike must be NULL or numeric, and range & option type must be NULL or character.") # nolint
+  # Define recursive function to replace NULLs with NAs to avoid function errors
+  replace_nulls_recursive <- function(x) {
+    if (is.list(x)) {
+      lapply(x, replace_nulls_recursive)
+    } else if (is.null(x)) {
+      NA
+    } else {
+      x
+    }
+  }
+  # Ensure tokens is a list and strike_count, interval, and strike are numeric while range is a string
+  if (!is.list(tokens) || (!is.null(strike_count) && !is.numeric(strike_count)) || (!is.null(interval) && !is.numeric(interval)) || (!is.null(strike) && !is.numeric(strike)) || (!is.null(range) && !is.character(range)) || (!is.null(option_type) && !is.character(option_type))) {
+    stop("Tokens must be a list and strike count, interval, and strike must be NULL or numeric, and range & option type must be NULL or character.")
   }
   # Ensure to and from dates are dates or NULLs
-  if ((!is.null(to_date) && !lubridate::is.Date(to_date)) || (!is.null(from_date) && !lubridate::is.Date(from_date))) { # nolint
+  if ((!is.null(to_date) && !lubridate::is.Date(to_date)) || (!is.null(from_date) && !lubridate::is.Date(from_date))) {
     stop("To/from dates must be dates or NULL.")
   }
-  # Ensure strategy is NULL or "SINGLE", "ANALYTICAL", "COVERED", "VERTICAL", "CALENDAR", "STRANGLE", "STRADDLE", "BUTTERFLY", "CONDOR", "DIAGONAL", "COLLAR", "ROLL" # nolint
-  if (!is.null(strategy) &&(length(setdiff(strategy, c("SINGLE", "ANALYTICAL", "COVERED", "VERTICAL", "CALENDAR", "STRANGLE", "STRADDLE", "BUTTERFLY", "CONDOR", "DIAGONAL", "COLLAR", "ROLL")) > 0))) { # nolint
-    stop("Strategy must be NULL or 'SINGLE', 'ANALYTICAL', 'COVERED', 'VERTICAL', 'CALENDAR', 'STRANGLE', 'STRADDLE', 'BUTTERFLY', 'CONDOR', 'DIAGONAL', 'COLLAR', or 'ROLL'.") # nolint
+  # Ensure strategy is NULL or "SINGLE", "ANALYTICAL", "COVERED", "VERTICAL", "CALENDAR", "STRANGLE", "STRADDLE", "BUTTERFLY", "CONDOR", "DIAGONAL", "COLLAR", "ROLL"
+  if (!is.null(strategy) &&(length(setdiff(strategy, c("SINGLE", "ANALYTICAL", "COVERED", "VERTICAL", "CALENDAR", "STRANGLE", "STRADDLE", "BUTTERFLY", "CONDOR", "DIAGONAL", "COLLAR", "ROLL")) > 0))) {
+    stop("Strategy must be NULL or 'SINGLE', 'ANALYTICAL', 'COVERED', 'VERTICAL', 'CALENDAR', 'STRANGLE', 'STRADDLE', 'BUTTERFLY', 'CONDOR', 'DIAGONAL', 'COLLAR', or 'ROLL'.")
   }
-  # Ensure expiration month is NULL or "ALL", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" # nolint
-  if (!is.null(exp_month) &&(length(setdiff(exp_month, c("ALL", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")) > 0))) { # nolint
-    stop("Expiration month must be NULL or 'ALL', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', or 'DEC'.") # nolint
+  # Ensure expiration month is NULL or "ALL", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+  if (!is.null(exp_month) &&(length(setdiff(exp_month, c("ALL", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")) > 0))) {
+    stop("Expiration month must be NULL or 'ALL', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', or 'DEC'.")
   }
   # Ensure contract type is NULL or "CALL", "PUT", or "ALL"
-  if (!is.null(contract_type) && (length(setdiff(contract_type, c("ALL", "CALL", "PUT")) > 0))) { # nolint
-    stop("Contract type must be NULL or 'ALL', 'CALL', or 'PUT'.") # nolint
+  if (!is.null(contract_type) && (length(setdiff(contract_type, c("ALL", "CALL", "PUT")) > 0))) {
+    stop("Contract type must be NULL or 'ALL', 'CALL', or 'PUT'.")
   }
   # Ensure entitlement is NULL or "PP", "NP", or "PN"
-  if (!is.null(entitlement) && (length(setdiff(entitlement, c("PP", "NP", "PN")) > 0))) { # nolint
-    stop("Entitlement must be NULL or 'PP', 'NP', or 'PN'.") # nolint
+  if (!is.null(entitlement) && (length(setdiff(entitlement, c("PP", "NP", "PN")) > 0))) {
+    stop("Entitlement must be NULL or 'PP', 'NP', or 'PN'.")
   }
   # Ensure include_underlying_quote is TRUE or FALSE
-  if (!is.null(include_underlying_quote) && !is.logical(include_underlying_quote)) { # nolint
-    stop("Include underlying quote must be NULL or logical (TRUE or FALSE).") # nolint
+  if (!is.null(include_underlying_quote) && !is.logical(include_underlying_quote)) {
+    stop("Include underlying quote must be NULL or logical (TRUE or FALSE).")
   }
-    # Ensure volatility, underlying_price, interest_rate, and days_to_expiration are not NULL only when strategy is ANALYTICAL # nolint
-  if (strategy != "ANALYTICAL" && (!is.null(volatility) || !is.null(underlying_price) || !is.null(interest_rate) || !is.null(days_to_expiration))) { # nolint
-    stop("Volatility, underlying price, interest rate, and days to expiration should only be non-NULL when strategy is ANALYTICAL.") # nolint
+    # Ensure volatility, underlying_price, interest_rate, and days_to_expiration are not NULL only when strategy is ANALYTICAL
+  if (strategy != "ANALYTICAL" && (!is.null(volatility) || !is.null(underlying_price) || !is.null(interest_rate) || !is.null(days_to_expiration))) {
+    stop("Volatility, underlying price, interest rate, and days to expiration should only be non-NULL when strategy is ANALYTICAL.")
   }
-    # Ensure volatility, underlying price, interest rate, and days to expiration are numeric or NULL # nolint
-  if ((!is.null(volatility) && !is.numeric(volatility)) || (!is.null(underlying_price) && !is.numeric(underlying_price)) || (!is.null(interest_rate) && !is.numeric(interest_rate)) || (!is.null(days_to_expiration) && !is.numeric(days_to_expiration))) { # nolint
-    stop("Volatility, underlying price, interest rate, and days to expiration should be NULL or numeric (and non-NULL when strategy is ANALYTICAL).") # nolint
+    # Ensure volatility, underlying price, interest rate, and days to expiration are numeric or NULL
+  if ((!is.null(volatility) && !is.numeric(volatility)) || (!is.null(underlying_price) && !is.numeric(underlying_price)) || (!is.null(interest_rate) && !is.numeric(interest_rate)) || (!is.null(days_to_expiration) && !is.numeric(days_to_expiration))) {
+    stop("Volatility, underlying price, interest rate, and days to expiration should be NULL or numeric (and non-NULL when strategy is ANALYTICAL).")
   }
   # Define URL for GET request
   url <- paste0("https://api.schwabapi.com/marketdata/v1/chains")
+  # Define list to hold error messages
+  error_messages <- list(
+    "400" = "400 error - validation problem with the request. Double check input objects, including tokens, and try again.",
+    "401" = "401 error - authorization token is invalid.",
+    "404" = "404 error - resource is not found. Double check inputs and try again later.",
+    "500" = "500 error - unexpected server error. Please try again later."
+  )
   # Define query parameters
   query <- list("symbol" = symbol,
                 "contractType" = contract_type,
                 "strikeCount" = strike_count,
-                "includeUnderlyingQuote" = ifelse(include_underlying_quote, TRUE, FALSE), # nolint
+                "includeUnderlyingQuote" = ifelse(include_underlying_quote, TRUE, FALSE),
                 "strategy" = strategy,
                 "interval" = interval,
                 "strike" = strike,
@@ -117,32 +134,25 @@ get_option_chains <- function(tokens,
   request <- httr::GET(url = url,
                        query = query,
                        httr::add_headers(`accept` = "application/json",
-                                         `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
-  # Extract status code from request
-  request_status_code <- httr::status_code(request)
-  # Try to extract content from request
-  req_list <- tryCatch(
-    expr = {
-      httr::content(request)
-    },
-    # If error in extracting, throw generic error message and print request object (more specifics follow below) #nolint
-    error = function(e) {
-      message("Error during API call:")
-      print(request)
-    }
-  )
+                                         `Authorization` = paste0("Bearer ", tokens$access_token)))
+  # Extract status code from request as string
+  request_status_code <- as.character(httr::status_code(request))
   # Check if valid response returned (200)
   if (request_status_code == 200) {
     # Inform user call was successful, so starting process
-    message(paste0("Call successful for ", symbol, ", preparing data now, which can take some time depending on the symbol...")) # nolint
-    # Only keep elements that have one value (these will be appended to final data frame later) # nolint
+    message(paste0("Call successful for ", symbol, ", preparing data now, which can take some time depending on the symbol..."))
+    # Extract content from request
+    req_list <- httr::content(request)
+    # Replace NULLs with NAs recursively
+    req_list <- replace_nulls_recursive(req_list)
+    # Only keep elements that have one value (these will be appended to final data frame later)
     req_list_subset <- purrr::keep(req_list, function(x) length(x) == 1)
     # Transform these elements into their own data frame
     req_list_subset_df <- data.frame(req_list_subset)
-    # Check i strategy is SINGLE or ANALYTICAL
+    # Check if strategy is SINGLE or ANALYTICAL
     if (strategy == "SINGLE" || strategy == "ANALYTICAL" || is.null(strategy)) {
       # Bind contents of call into starting data frame
-      req_df <- do.call(dplyr::bind_rows, lapply(append(req_list$callExpDateMap, req_list$putExpDateMap), as.data.frame)) # nolint
+      req_df <- do.call(dplyr::bind_rows, lapply(append(req_list$callExpDateMap, req_list$putExpDateMap), as.data.frame))
       # Only keep the last part of name after second period (first part is the strike) # nolint
       req_df_names <- sub("(?:[^\\.]*\\.){2}(.*?)", "", names(req_df))
       # Group similar columns together based on names
@@ -168,40 +178,24 @@ get_option_chains <- function(tokens,
       req_df_list_long_strike_clean_bind <- req_df_list_long_strike_clean_bind[, !duplicated(colnames(req_df_list_long_strike_clean_bind))] # nolint
       # Remove duplicated values
       req_df_full <- req_df_list_long_strike_clean_bind[!duplicated(req_df_list_long_strike_clean_bind), ] # nolint
-      # Add columns that only contain one value (subsetted in the beginning)
-      for (i in names(req_list_subset_df)) {
-        req_df_full[paste0(i)] <- req_list_subset_df[paste0(i)]
-      }
     } else {
       # Bind contents of call into starting data frame
-      req_df_full <- do.call(dplyr::bind_rows, lapply(req_list$monthlyStrategyList, as.data.frame)) # nolint
-      # Add columns that only contain one value (subsetted in the beginning)
-      for (i in names(req_list_subset_df)) {
-        req_df_full[paste0(i)] <- req_list_subset_df[paste0(i)]
-      }
+      req_df_full <- do.call(dplyr::bind_rows, lapply(req_list$monthlyStrategyList, as.data.frame))
     }
+    # Add columns that only contain one value (subsetted in the beginning)
+      req_df_full <- cbind(req_df_full, req_list_subset_df[rep(1, nrow(req_df_full)), ])
     # Return data frame
     return(req_df_full)
-    # Otherwise, cycle through errors and print content from error rather than generic error like above #nolint
-  } else if (request_status_code == 400) {
-    message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 401) {
-    message("401 error - authorization token is invalid. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 404) {
-    message("404 error - resource is not found. Double check inputs and try again later. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 500) {
-    message("500 error - unexpected server error. Please try again later. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
+    # If API call is not a good status code
   } else {
-    # If another error is encountered that is not in documentation, inform/print it for the user #nolint
-    message("Error during API call - more specifics are below: ")
-    print(unlist(req_list))
+    # Get appropriate error message
+    error_message <- error_messages[request_status_code]
+    # If cannot find any error message, set to generic message
+    if (is.null(error_message)) {
+      error_message <- "Error during API call."
+    }
+    # Print error message and details from call
+    message(paste(error_message, "More details are below:"))
+    print(unlist(request))
   }
 }

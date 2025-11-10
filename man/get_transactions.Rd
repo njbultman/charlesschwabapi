@@ -37,7 +37,16 @@ function and the encrypted ID for the account number of interest, get
 the transactions associated with that account number. By
 default, the last 180 days worth of transactions are returned.
 However, this can be tweaked according to the date parameters
-along with the types of transactions using the types parameter.
+along with the types of transactions using the types parameter, but
+the maximum date range is one year.
+}
+\details{
+The easiest way to enter the right strings in the start/end times is to
+begin with `Sys.time()`, use the `lubridate` package to adjust it, and
+then format it as `%Y-%m-%dT%H:%M:%S.000Z`. For example, to get the current
+date less 30 days, you can use:
+`strftime(Sys.time() - lubridate::days(30), format = "%Y-%m-%dT%H:%M:%S.000Z")`.
+The defaults for this function illustrate the appropriate usage for the API.
 }
 \author{
 Nick Bultman, \email{njbultman74@gmail.com}, June 2024

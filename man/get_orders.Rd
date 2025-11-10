@@ -33,7 +33,16 @@ Given the tokens object from the `get_authentication_tokens`
 function, return a data frame containing the orders for all
 accounts related to the authenticated user. By default, it
 will return all orders (default max is 3000) from the last 60 days.
-This can be adjusted through additional function parameters.
+This can be adjusted through additional function parameters, but the
+maximum date range is one year.
+}
+\details{
+The easiest way to enter the right strings in the start/end times is to
+begin with `Sys.time()`, use the `lubridate` package to adjust it, and
+then format it as `%Y-%m-%dT%H:%M:%S.000Z`. For example, to get the current
+date less 30 days, you can use:
+`strftime(Sys.time() - lubridate::days(30), format = "%Y-%m-%dT%H:%M:%S.000Z")`.
+The defaults for this function illustrate the appropriate usage for the API.
 }
 \author{
 Nick Bultman, \email{njbultman74@gmail.com}, July 2024

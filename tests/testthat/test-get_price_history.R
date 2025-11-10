@@ -2,74 +2,74 @@
 
 # Test 1: Invalid class type for tokens throws error
 test_that("invalid class type for tokens throws error", {
-  expect_error(get_price_history(1), # nolint
-               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+  expect_error(get_price_history(1),
+               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
 })
 # Test 2: Invalid class type for symbol throws error
 test_that("invalid class type for symbol throws error", {
   expect_error(get_price_history(list(),
-                                 symbol = TRUE), # nolint
-               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+                                 symbol = TRUE),
+               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
 })
 # Test 3: Invalid class type for period type throws error
 test_that("invalid class type for period type throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "AAPL",
-                                 period_type = 1), # nolint
-               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+                                 period_type = 1),
+               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
 })
 # Test 4: Invalid class type for period throws error
 test_that("invalid class type for period throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 period = "test"), # nolint
-               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+                                 period = "test"),
+               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
 })
 # Test 5: Invalid class type for frequency type throws error
 test_that("invalid class type for frequency type throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 frequency_type = factor("test")), # nolint
-               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+                                 frequency_type = factor("test")),
+               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
 })
 # Test 6: Invalid class type for frequency throws error
 test_that("invalid class type for frequency throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 frequency = "hello"), # nolint
-               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+                                 frequency = "hello"),
+               "Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
 })
 # Test 7: Invalid class type for start datetime throws error
 test_that("invalid class type for start datetime throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 start_datetime = "hello"), # nolint
-               "Start/end dates must be a date and extended hours and previous close must be boolean.") # nolint
+                                 start_datetime = "hello"),
+               "Start/end dates must be a date and extended hours and previous close must be boolean.")
 })
 # Test 8: Invalid class type for end datetime throws error
 test_that("invalid class type for end datetime throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 end_datetime = "hello"), # nolint
-               "Start/end dates must be a date and extended hours and previous close must be boolean.") # nolint
+                                 end_datetime = "hello"),
+               "Start/end dates must be a date and extended hours and previous close must be boolean.")
 })
 # Test 9: Invalid class type for extended hours throws error
 test_that("invalid class type for extended hours throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 need_extended_hours_data = "hello"), # nolint
-               "Start/end dates must be a date and extended hours and previous close must be boolean.") # nolint
+                                 need_extended_hours_data = "hello"),
+               "Start/end dates must be a date and extended hours and previous close must be boolean.")
 })
 # Test 10: Invalid class type for need previous close throws error
 test_that("invalid class type for need previous close throws error", {
   expect_error(get_price_history(list(),
                                  symbol = "GOOG",
-                                 need_previous_close = "hello"), # nolint
-               "Start/end dates must be a date and extended hours and previous close must be boolean.") # nolint
+                                 need_previous_close = "hello"),
+               "Start/end dates must be a date and extended hours and previous close must be boolean.")
 })
 # Test 11: Bad API authentication call throws error
-test_that("bad API authentication call throws error", {
-  expect_message(get_price_history(list(),
-                                   symbol = "AAPL"),
-               "401 error - authorization token is invalid. More specifics on error are below:") # nolint
+test_that("bad API call returns error", {
+  expect_output(suppressMessages(get_price_history(list(),
+                                                   symbol = "GOOG")),
+                regexp = "InvalidAccessToken")
 })

@@ -51,60 +51,67 @@ get_price_history <- function(tokens,
                               end_datetime = NULL,
                               need_extended_hours_data = NULL,
                               need_previous_close = NULL) {
-  # Ensure tokens parameter is a list, symbol and period/frequency type are strings, and period/frequency are numeric # nolint
-  if (!is.list(tokens) || !is.character(symbol) || (!is.null(period_type) && !is.character(period_type)) || (!is.null(period) && !is.numeric(period)) || (!is.null(frequency_type) && !is.character(frequency_type)) || (!is.null(frequency) && !is.numeric(frequency))) { # nolint
-    stop("Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.") # nolint
+  # Ensure tokens parameter is a list, symbol and period/frequency type are strings, and period/frequency are numeric
+  if (!is.list(tokens) || !is.character(symbol) || (!is.null(period_type) && !is.character(period_type)) || (!is.null(period) && !is.numeric(period)) || (!is.null(frequency_type) && !is.character(frequency_type)) || (!is.null(frequency) && !is.numeric(frequency))) {
+    stop("Tokens parameter must be a list and symbol must be a string. Also, period type and frequency type must be numeric or NULL, and period and frequency must be numeric or NULL.")
   }
-  # Ensure start/end dates are datetimes or NULL and extended hours and previous close are boolean or NULL # nolint
-  if ((!is.null(start_datetime) && !lubridate::is.POSIXt(start_datetime)) || (!is.null(end_datetime) && !lubridate::is.POSIXct(end_datetime))  || (!is.null(need_extended_hours_data) && !is.logical(need_extended_hours_data)) || (!is.null(need_previous_close) && !is.logical(need_previous_close))) { # nolint
-    stop("Start/end dates must be a date and extended hours and previous close must be boolean.") # nolint
+  # Ensure start/end dates are datetimes or NULL and extended hours and previous close are boolean or NULL
+  if ((!is.null(start_datetime) && !lubridate::is.POSIXt(start_datetime)) || (!is.null(end_datetime) && !lubridate::is.POSIXct(end_datetime))  || (!is.null(need_extended_hours_data) && !is.logical(need_extended_hours_data)) || (!is.null(need_previous_close) && !is.logical(need_previous_close))) {
+    stop("Start/end dates must be a date and extended hours and previous close must be boolean.")
   }
   # Ensure period type is NULL or "day", "month", "year" or "ytd"
-  if (!is.null(period_type) && (length(setdiff(period_type, c("day", "month", "year", "ytd")) > 0))) { # nolint
-    stop("Period type must be NULL or 'day', 'month', 'year', or 'ytd'.") # nolint
+  if (!is.null(period_type) && (length(setdiff(period_type, c("day", "month", "year", "ytd")) > 0))) {
+    stop("Period type must be NULL or 'day', 'month', 'year', or 'ytd'.")
   }
-  # If period type is NULL or "day" then ensure period value is NULL, 1, 2, 3, 4, 5, or 10 # nolint
-  if ((is.null(period_type) || period_type == "day") && (!is.null(period) && length(setdiff(period, c(1, 2, 3, 4, 5, 10)) > 0))) { # nolint
-    stop("If period type is NULL or 'day' then period must be NULL, 1, 2, 3, 4, 5, or 10.") # nolint
+  # If period type is NULL or "day" then ensure period value is NULL, 1, 2, 3, 4, 5, or 10
+  if ((is.null(period_type) || period_type == "day") && (!is.null(period) && length(setdiff(period, c(1, 2, 3, 4, 5, 10)) > 0))) {
+    stop("If period type is NULL or 'day' then period must be NULL, 1, 2, 3, 4, 5, or 10.")
   }
-  # If period type is "month" then ensure period value is NULL, 1, 2, 3, 4, 5, or 10 # nolint
-  if ((period_type == "month") && (!is.null(period) && length(setdiff(period, c(1, 2, 3, 4, 6)) > 0))) { # nolint
-    stop("If period type is 'month' then period must be NULL, 1, 2, 3, or 6.") # nolint
+  # If period type is "month" then ensure period value is NULL, 1, 2, 3, 4, 5, or 10
+  if ((period_type == "month") && (!is.null(period) && length(setdiff(period, c(1, 2, 3, 4, 6)) > 0))) {
+    stop("If period type is 'month' then period must be NULL, 1, 2, 3, or 6.")
   }
-  # If period type is "year" then ensure period value is NULL, 1, 2, 3, 5, 10, 15, or 20 # nolint
-  if ((period_type == "year") && (!is.null(period) && length(setdiff(period, c(1, 2, 3, 5, 10, 15, 20)) > 0))) { # nolint
-    stop("If period type is 'year' then period must be NULL, 1, 2, 3, 5, 10, 15, or 20.") # nolint
+  # If period type is "year" then ensure period value is NULL, 1, 2, 3, 5, 10, 15, or 20
+  if ((period_type == "year") && (!is.null(period) && length(setdiff(period, c(1, 2, 3, 5, 10, 15, 20)) > 0))) {
+    stop("If period type is 'year' then period must be NULL, 1, 2, 3, 5, 10, 15, or 20.")
   }
   # If period type is "ytd" then ensure period value is NULL or 1
-  if ((period_type == "ytd") && (!is.null(period) && length(setdiff(period, c(1)) > 0))) { # nolint
-    stop("If period type is 'ytd' then period must be NULL or 1.") # nolint
+  if ((period_type == "ytd") && (!is.null(period) && length(setdiff(period, c(1)) > 0))) {
+    stop("If period type is 'ytd' then period must be NULL or 1.")
   }
   # If period type is NULL or "day" then ensure frequency type is "minute"
-  if ((is.null(period_type) || period_type == "day") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("minute")) > 0))) { # nolint
-    stop("If period type is NULL or 'day' then frequency type must be 'minute'.") # nolint
+  if ((is.null(period_type) || period_type == "day") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("minute")) > 0))) {
+    stop("If period type is NULL or 'day' then frequency type must be 'minute'.")
   }
   # If period type is "month" then ensure frequency type is "daily" or "weekly"
-  if ((period_type == "month") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("daily", "weekly")) > 0))) { # nolint
-    stop("If period type is 'month' then frequency type must be 'daily', 'weekly'.") # nolint
+  if ((period_type == "month") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("daily", "weekly")) > 0))) {
+    stop("If period type is 'month' then frequency type must be 'daily', 'weekly'.")
   }
-  # If period type is "year" then ensure frequency type is "daily", "weekly", or "monthly" # nolint
-  if ((period_type == "year") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("daily", "weekly", "monthly")) > 0))) { # nolint
-    stop("If period type is 'year' then frequency type must be 'daily' or 'weekly', or 'monthly'.") # nolint
+  # If period type is "year" then ensure frequency type is "daily", "weekly", or "monthly"
+  if ((period_type == "year") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("daily", "weekly", "monthly")) > 0))) {
+    stop("If period type is 'year' then frequency type must be 'daily' or 'weekly', or 'monthly'.")
   }
   # If period type is "ytd" then ensure frequency type is "daily" or "weekly"
-  if ((period_type == "ytd") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("daily", "weekly")) > 0))) { # nolint
-    stop("If period type is 'ytd' then frequency type must be 'daily', 'weekly'.") # nolint
+  if ((period_type == "ytd") && (!is.null(frequency_type) && length(setdiff(frequency_type, c("daily", "weekly")) > 0))) {
+    stop("If period type is 'ytd' then frequency type must be 'daily', 'weekly'.")
   }
-  # If frequency is not NULL and frequency type is "minute" then ensure frequency is NULL, 1, 5, 10, 15, or 30 # nolint
-  if (!is.null(frequency) && frequency_type == "minute") { # nolint
-    stop("Frequency must be NULL, 1, 5, 10, 15, or 30 when frequency type is 'minute'.") # nolint
+  # If frequency is not NULL and frequency type is "minute" then ensure frequency is NULL, 1, 5, 10, 15, or 30
+  if (!is.null(frequency) && frequency_type == "minute") {
+    stop("Frequency must be NULL, 1, 5, 10, 15, or 30 when frequency type is 'minute'.")
   }
-  # If frequency is not NULL and frequency type is "daily", "weekly", or "monthly" then ensure frequency is NULL or 1 # nolint
-  if (!is.null(frequency) && frequency != 1 && (frequency_type == "daily" || frequency_type == "weekly" || frequency_type == "monthly")) { # nolint
-    stop("Frequency must be NULL or 1 when frequency type is 'daily', 'weekly', or 'monthly'.") # nolint
+  # If frequency is not NULL and frequency type is "daily", "weekly", or "monthly" then ensure frequency is NULL or 1
+  if (!is.null(frequency) && frequency != 1 && (frequency_type == "daily" || frequency_type == "weekly" || frequency_type == "monthly")) {
+    stop("Frequency must be NULL or 1 when frequency type is 'daily', 'weekly', or 'monthly'.")
   }
   # Define URL for GET request
   url <- "https://api.schwabapi.com/marketdata/v1/pricehistory"
+  # Define list to hold error messages
+  error_messages <- list(
+    "400" = "400 error - validation problem with the request. Double check input objects, including tokens, and try again.",
+    "401" = "401 error - authorization token is invalid.",
+    "404" = "404 error - resource is not found. Double check inputs and try again later.",
+    "500" = "500 error - unexpected server error. Please try again later."
+  )
   # Define query parameters
   query <- list("symbol" = symbol,
                 "periodType" = period_type,
@@ -119,60 +126,46 @@ get_price_history <- function(tokens,
   request <- httr::GET(url = url,
                        query = query,
                        httr::add_headers(`accept` = "application/json",
-                                         `Authorization` = paste0("Bearer ", tokens$access_token))) # nolint
-  # Extract status code from request
-  request_status_code <- httr::status_code(request)
-  # Try to extract content from request
-  req_list <- tryCatch(
-    expr = {
-      httr::content(request)
-    },
-    # If error in extracting, throw generic error message and print request object (more specifics follow below) #nolint
-    error = function(e) {
-      message("Error during API call:")
-      print(request)
-    }
-  )
+                                         `Authorization` = paste0("Bearer ", tokens$access_token)))
+  # Extract status code from request as string
+  request_status_code <- as.character(httr::status_code(request))
   # Check if valid response returned (200)
   if (request_status_code == 200) {
-    # Only keep elements that have one value (these will be appended to final data frame later) # nolint
+    # Extract content from request
+    req_list <- httr::content(request)
+    # Only keep elements that have one value (these will be appended to final data frame later)
     req_list_subset <- purrr::keep(req_list, function(x) length(x) == 1)
     # Transform these elements into their own data frame
     req_list_subset_df <- data.frame(req_list_subset)
     # Transform candles list to data frame
     req_df <- dplyr::bind_rows(req_list$candles)
-    # Switch datetime column from unix to interpretable datetime
-    req_df$datetime <- anytime::anytime(req_df$datetime / 1000)
+    # If no records in data frame, inform user and do not parse modify datetime
+    if (nrow(req_df) == 0) {
+      message(paste0("No data found for '", symbol, "'. Is it spelled correctly?"))
+    } else {
+      # If records, switch datetime column from unix to interpretable datetime
+      req_df$datetime <- anytime::anytime(req_df$datetime / 1000)
+    }
     # Add columns that only contain one value (subsetted in the beginning)
     for (i in names(req_list_subset_df)) {
       req_df[paste0(i)] <- req_list_subset_df[paste0(i)]
     }
     # If previousCloseDate column is present, parse it to interpratable datetime
     if (!is.na(match("previousCloseDate", names(req_df)))) {
-        req_df$previousCloseDate <- anytime::anytime(req_df$previousCloseDate / 1000) # nolint
+        req_df$previousCloseDate <- anytime::anytime(req_df$previousCloseDate / 1000)
     }
     # Return data frame
     return(req_df)
-    # Otherwise, cycle through errors and print content from error rather than generic error like above #nolint
-  } else if (request_status_code == 400) {
-    message("400 error - validation problem with the request. Double check input objects, including tokens, and try again. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 401) {
-    message("401 error - authorization token is invalid. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 404) {
-    message("404 error - resource is not found. Double check inputs and try again later. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
-  } else if (request_status_code == 500) {
-    message("500 error - unexpected server error. Please try again later. ", #nolint
-            "More specifics on error are below:")
-    print(unlist(req_list))
+    # If API call is not a good status code
   } else {
-    # If another error is encountered that is not in documentation, inform/print it for the user #nolint
-    message("Error during API call - more specifics are below: ")
-    print(unlist(req_list))
+    # Get appropriate error message
+    error_message <- error_messages[request_status_code]
+    # If cannot find any error message, set to generic message
+    if (is.null(error_message)) {
+      error_message <- "Error during API call."
+    }
+    # Print error message and details from call
+    message(paste(error_message, "More details are below:"))
+    print(unlist(request))
   }
 }
